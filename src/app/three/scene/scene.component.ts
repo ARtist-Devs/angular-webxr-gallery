@@ -6,25 +6,23 @@ import {
   NgZone,
   ViewChild,
 } from '@angular/core';
+
 import {
-  BoxGeometry,
   Clock,
   Color,
   DirectionalLight,
   HemisphereLight,
-  Mesh,
-  MeshBasicMaterial,
   PerspectiveCamera,
   Scene,
   WebGLRenderer,
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+
 import { LoadersService } from '../loaders.service';
 
 export interface SceneOptions {
   width: 800;
   height?: 600;
-  model?: string;
 }
 
 @Component({
@@ -39,8 +37,6 @@ export class SceneComponent {
   public camera: any;
   public clock = new Clock();
   public scene: Scene = new Scene();
-  model: any;
-  box: any;
   private renderer: any;
 
   renderFunctions: Function[] = [];
@@ -83,21 +79,6 @@ export class SceneComponent {
     light.position.set(0.2, 1, 1);
     this.scene.add(light);
 
-    // if (this.options.model) {
-    // this.loadersService.loadGLTF( this.options.model ).then( ( gltf ) => {
-    // } );
-    // Load model or just get the model?
-    // this.scene.add( this.options.model );
-    // }
-
-    // To test the scene
-    this.box = new Mesh(
-      new BoxGeometry(1, 1, 1),
-      new MeshBasicMaterial({ color: 0x00ff00 })
-    );
-    this.box.position.z = -3;
-    // this.scene.add( this.box );
-
     const controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.ngZone.runOutsideAngular(() =>
       this.renderer.setAnimationLoop(() => this.render())
@@ -114,7 +95,6 @@ export class SceneComponent {
 
   render() {
     const delta = this.clock.getDelta();
-    this.box.rotation.y += 0.01;
     this.renderFunctions.forEach((f) => f(delta));
     this.renderer.render(this.scene, this.camera);
   }
