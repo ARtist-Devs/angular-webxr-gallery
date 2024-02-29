@@ -8,12 +8,16 @@ import {
 } from '@angular/core';
 
 import {
+  BoxGeometry,
   Clock,
   Color,
   DirectionalLight,
   HemisphereLight,
+  Mesh,
+  MeshBasicMaterial,
   Object3D,
   PerspectiveCamera,
+  PlaneGeometry,
   Scene,
   WebGLRenderer,
 } from 'three';
@@ -38,6 +42,8 @@ export class SceneComponent {
   // @ts-ignore
   public camera: PerspectiveCamera;
   public clock = new Clock();
+  // @ts-ignore
+  public controls: OrbitControls;
   public scene: Scene = new Scene();
   private defaultOptions: SceneOptions = {
     width: window.innerWidth || 800,
@@ -62,7 +68,8 @@ export class SceneComponent {
     const h = this.options.height || this.canvasEl.height;
 
     // Camera
-    this.camera = new PerspectiveCamera(75, w / h, 0.1, 1000);
+    this.camera = new PerspectiveCamera(40, w / h, 0.1, 200);
+    this.camera.position.y = 1.6;
     this.scene.add(this.camera);
     this.scene.background = new Color('black');
 
@@ -84,12 +91,22 @@ export class SceneComponent {
     this.scene.add(light);
 
     // Controls
-    const controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.addControls();
+
+    // this.debug();
 
     // Animation Loop
     this.ngZone.runOutsideAngular(() =>
       this.renderer.setAnimationLoop(() => this.render())
     );
+  }
+
+  // Render function runs on each frame
+  render() {
+    const delta = this.clock.getDelta();
+    this.renderFunctions.forEach((f) => f(delta));
+    this.controls.update();
+    this.renderer.render(this.scene, this.camera);
   }
 
   // Add a function to the render loop
@@ -101,13 +118,6 @@ export class SceneComponent {
     this.renderFunctions = this.renderFunctions.filter((fn) => fn !== f);
   }
 
-  // Render function runs on each frame
-  render() {
-    const delta = this.clock.getDelta();
-    this.renderFunctions.forEach((f) => f(delta));
-    this.renderer.render(this.scene, this.camera);
-  }
-
   // Add an object to the scene
   addToScene(obj: Object3D) {
     this.scene.add(obj);
@@ -115,6 +125,22 @@ export class SceneComponent {
 
   removeFromScene(obj: Object3D) {
     this.scene.remove(obj);
+  }
+
+  addControls() {
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.listenToKeyEvents(window); // optional
+    // Set the controls target to the camera/user position
+    this.controls.target.set(0, 1.6, 0);
+    this.controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+    this.controls.dampingFactor = 0.05;
+
+    this.controls.screenSpacePanning = false;
+
+    this.controls.minDistance = 100;
+    this.controls.maxDistance = 500;
+
+    this.controls.maxPolarAngle = Math.PI / 2;
   }
 
   // Resize the canvas when the window is resized
@@ -133,5 +159,13 @@ export class SceneComponent {
 
     // set the pixel ratio (for mobile devices)
     this.renderer.setPixelRatio(window.devicePixelRatio);
+  }
+
+  debug() {
+    // Add a cube to the scene for testing purposes
+    const boxGeo = new BoxGeometry(2, 2, 2);
+    const material = new MeshBasicMaterial({ color: 0x00ff00 });
+    const cube = new Mesh(boxGeo, material);
+    this.scene.add(cube);
   }
 }

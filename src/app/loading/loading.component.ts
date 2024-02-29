@@ -5,7 +5,7 @@ import {
   NgZone,
 } from '@angular/core';
 
-import { Object3D } from 'three';
+import { Object3D, PlaneGeometry } from 'three';
 
 import { LoadersService } from '../three/loaders.service';
 import { SceneComponent } from '../three/scene/scene.component';
@@ -37,6 +37,7 @@ export class LoadingComponent extends SceneComponent {
   // Place and animate the logo when loaded
   onLoad(model: Object3D) {
     model.position.z = -50;
+    model.position.y = 1;
     model.name = 'aLogo';
     this.addToScene(model);
     this.addToRender(() => {
