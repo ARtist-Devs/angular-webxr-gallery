@@ -121,7 +121,6 @@ export class SceneComponent {
 
   addToScene(obj: any) {
     this.scene.add(obj);
-    console.log('added to scene ', this.scene, obj);
   }
 
   removeFromScene(obj: any) {

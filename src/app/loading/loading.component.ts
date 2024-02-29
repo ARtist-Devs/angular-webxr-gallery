@@ -5,7 +5,7 @@ import {
   NgZone,
 } from '@angular/core';
 
-import { MeshBasicMaterial } from 'three';
+import { Object3D } from 'three';
 
 import { LoadersService } from '../three/loaders.service';
 import { SceneComponent } from '../three/scene/scene.component';
@@ -19,7 +19,6 @@ import { SceneComponent } from '../three/scene/scene.component';
   styleUrl: './loading.component.scss',
 })
 export class LoadingComponent extends SceneComponent {
-  //  loadersService = inject(LoadersService)
   @Input() delta = 0;
   constructor(ngZone: NgZone, loadersService: LoadersService) {
     super(ngZone, loadersService);
@@ -27,19 +26,16 @@ export class LoadingComponent extends SceneComponent {
 
   override ngAfterViewInit(): void {
     super.ngAfterViewInit();
-    const mesh = this.loadersService.loadGLTF({
+    const model = this.loadersService.loadGLTF({
       path: '/assets/models/aLogo.glb',
       onLoadCB: this.onLoad.bind(this),
     });
   }
 
-  onLoad(model: any) {
-    console.log('Model loaded on loading', model);
-    // @ts-ignore
-    model.material = new MeshBasicMaterial({ color: 0x00ff00 });
-    model.position.z = -30;
+  onLoad(model: Object3D) {
+    model.position.z = -50;
+    model.name = 'aLogo';
     this.addToScene(model);
-    // @ts-ignore
     this.addToRender(() => {
       model.rotation.y += 0.01;
     });

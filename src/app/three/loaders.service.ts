@@ -1,4 +1,5 @@
 import { Injectable, WritableSignal, signal } from '@angular/core';
+
 import { LoadingManager, Object3D, TextureLoader } from 'three';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -35,12 +36,10 @@ export class LoadersService {
     };
 
     this.loadingManager.onLoad = () => {
-      console.log('Loading complete!');
       this.loadingProgress.set(100);
       const time = Date.now();
       const elapsedSec = (time - this.loadStartTime) / 1000;
-      console.log('Loading took ', time - this.loadStartTime);
-      console.log(`seconds elapsed = ${elapsedSec}`);
+      console.log(`Loading complete, seconds elapsed = ${elapsedSec}`);
       // gtag( 'event', 'loaded', {
       //   'description': `All Assets are loaded in ${elapsedSec} seconds`,
       //   'event_category': 'loading',
