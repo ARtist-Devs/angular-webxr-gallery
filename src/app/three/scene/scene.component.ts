@@ -106,4 +106,22 @@ export class SceneComponent {
   removeFromScene(obj: any) {
     this.scene.remove(obj);
   }
+
+  onResize(e: Event) {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+
+    // Set the camera's aspect ratio
+    this.camera.aspect = w / h;
+
+    // update the camera's frustum
+    this.camera.updateProjectionMatrix();
+
+    // update the size of the renderer & the canvas
+    this.renderer.setSize(w, h);
+
+    // set the pixel ratio (for mobile devices)
+    this.renderer.setPixelRatio(window.devicePixelRatio);
+    console.log('onResize ', e);
+  }
 }
