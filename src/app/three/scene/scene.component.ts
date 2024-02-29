@@ -21,7 +21,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { LoadersService } from '../loaders.service';
 
 export interface SceneOptions {
-  width: 800;
+  width?: 800;
   height?: 600;
 }
 
@@ -34,19 +34,19 @@ export interface SceneOptions {
   styleUrl: './scene.component.scss',
 })
 export class SceneComponent {
-  public camera: any;
+  // @ts-ignore
+  public camera: PerspectiveCamera;
   public clock = new Clock();
   public scene: Scene = new Scene();
-  private renderer: any;
-
-  renderFunctions: Function[] = [];
-  defaultOptions = {
+  private defaultOptions = {
     width: window.innerWidth || 800,
     height: window.innerHeight || 600,
-    model: 'assets/model.glb',
   };
+  // @ts-ignore
+  private renderer: WebGLRenderer;
+  private renderFunctions: Function[] = [];
 
-  @Input({ required: false }) options: any = {};
+  @Input({ required: false }) options: SceneOptions = {};
 
   @ViewChild('canvas', { static: true }) canvas!: ElementRef<HTMLCanvasElement>;
   private get canvasEl(): HTMLCanvasElement {
@@ -57,10 +57,10 @@ export class SceneComponent {
 
   ngAfterViewInit(): void {
     this.options = Object.assign({}, this.defaultOptions, this.options);
-    const w = this.options.width || this.canvas.nativeElement.width;
+    const w = this.options.width || this.canvasEl.width;
     const h = this.options.height || this.canvasEl.height;
 
-    this.camera = new PerspectiveCamera(70, w / h, 0.1, 100);
+    this.camera = new PerspectiveCamera(75, w / h, 0.1, 1000);
     this.scene.add(this.camera);
     this.scene.background = new Color('black');
 
