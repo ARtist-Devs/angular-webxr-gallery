@@ -13,8 +13,10 @@ export class LoadersService {
   private gltfLoader = new GLTFLoader(this.loadingManager);
   private textureLoader: TextureLoader = new TextureLoader(this.loadingManager);
   private dracoLoader = new DRACOLoader(this.loadingManager);
-  loadStartTime = 0;
+  private loadStartTime = Date.now();
+
   constructor() {
+    // Set up the loading manager with start, progress, load, and error functions
     this.loadingManager.onStart = (
       url: string,
       itemsLoaded: number,
@@ -57,15 +59,22 @@ export class LoadersService {
       //   'non_interaction': true
       // } );
     };
+
+    // Configure and create Draco decoder
     this.dracoLoader.setDecoderPath(
-      'https://www.gstatic.com/draco/versioned/decoders/1.5.6/'
+      'https://www.gstatic.com/draco/versioned/decoders/1.5.7/'
     );
     this.dracoLoader.setDecoderConfig({ type: 'js' });
     this.dracoLoader.preload();
     this.gltfLoader.setDRACOLoader(this.dracoLoader);
   }
-  //{ path: string; onLoadCB: any; scene: Scene }
-  loadGLTF(ops: any) {
+
+  // Load a GLTF model
+  loadGLTF(ops: {
+    path: string;
+    onLoadCB: Function;
+    onLoadProgress?: Function;
+  }) {
     this.gltfLoader.load(
       ops.path,
       (gltf): Object3D => {
@@ -73,7 +82,9 @@ export class LoadersService {
         ops.onLoadCB(model);
         return model;
       },
-      (xhr: any) => {}, //ops.onLoadProgress( xhr ); },
+      (xhr: any) => {
+        ops.onLoadProgress && ops.onLoadProgress(xhr);
+      },
       (err) => {
         console.error('Error loading model ', err);
         // gtag( 'event', 'error_loading_model', {
@@ -86,10 +97,12 @@ export class LoadersService {
     );
   }
 
+  // Load a texture
   loadTexture(path: string) {
     return this.textureLoader.load(path);
   }
 
+  // Loading manager function to run on every file load
   onStart(url: string, item: any, total: any) {
     console.log(
       `Started loading file: ${url}. Now loading item ${item} of ${total}.`

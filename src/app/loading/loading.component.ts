@@ -26,12 +26,15 @@ export class LoadingComponent extends SceneComponent {
 
   override ngAfterViewInit(): void {
     super.ngAfterViewInit();
+
+    // Load the logo
     const model = this.loadersService.loadGLTF({
       path: '/assets/models/aLogo.glb',
       onLoadCB: this.onLoad.bind(this),
     });
   }
 
+  // Place and animate the logo when loaded
   onLoad(model: Object3D) {
     model.position.z = -50;
     model.name = 'aLogo';
