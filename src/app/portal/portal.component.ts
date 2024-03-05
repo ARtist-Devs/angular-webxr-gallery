@@ -111,10 +111,7 @@ export class PortalComponent extends SceneComponent {
           this.secondaryScene.add( model );
         }
       } );
-
     }
-
-
   }
 
   addEnvironment () {
