@@ -38,6 +38,7 @@ export class RenderTargetService {
     } );
 
     targetPlane.position.set( ops.position.x, ops.position.y, ops.position.z );
+    targetPlane.rotation.y = ops.rotation || 0;
     ops.scene.add( targetPlane );
 
     return [

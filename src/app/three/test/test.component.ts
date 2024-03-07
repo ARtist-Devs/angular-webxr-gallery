@@ -30,7 +30,23 @@ export class TestComponent extends SceneComponent {
     this.addLights();
 
     // Render Target
-    this.createRenderTarget();
+    this.createRenderTarget( {
+      width: 6,
+      height: 8,
+      position: { x: 0, y: 1, z: -3 },
+      camera: this.camera,
+      scene: this.scene,
+      renderer: this.renderer
+    } );
+    this.createRenderTarget( {
+      width: 6,
+      height: 8,
+      position: { x: -0.5, y: 1, z: -2 },
+      rotation: Math.PI / 2,
+      camera: this.camera,
+      scene: this.scene,
+      renderer: this.renderer
+    } );
 
     // Load the Man model
     this.man = this.loadersService.loadGLTF( {
@@ -40,23 +56,14 @@ export class TestComponent extends SceneComponent {
 
   }
 
-  createRenderTarget () {
-    const [targetRenderFunction, targetPlane, targetScene] = this.renderTargetService.createRenderTarget(
-      {
-        width: 6,
-        height: 8,
-        position: { x: 0, y: 1, z: -3 },
-        camera: this.camera,
-        scene: this.scene,
-        renderer: this.renderer
-      }
-    );
+  createRenderTarget ( ops: any ) {
+    const [targetRenderFunction, targetPlane, targetScene] = this.renderTargetService.createRenderTarget( ops );
 
     const aLogo = this.loadersService.loadGLTF( {
       path: 'assets/models/dark-objects.glb',
       onLoadCB: ( model: Object3D ) => {
         model.position.z = -5;
-        model.position.x = -1;
+        model.position.x = -2;
         model.position.y = -2;
         // @ts-ignore
         targetScene.add( model );
