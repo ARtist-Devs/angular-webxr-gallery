@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BoxGeometry, DynamicDrawUsage, InstancedMesh, Mesh, MeshBasicMaterial, MeshPhongMaterial, PlaneGeometry } from 'three';
+import { BoxGeometry, DynamicDrawUsage, InstancedMesh, Mesh, MeshBasicMaterial, MeshNormalMaterial, MeshPhongMaterial, PlaneGeometry, SphereGeometry } from 'three';
 
 @Injectable( {
   providedIn: 'root'
@@ -31,5 +31,12 @@ export class PrimitivesService {
     const cube = new Mesh( boxGeo, material );
     cube.position.y = 1;
     return cube;
+  }
+
+  createSphere ( ops: any ) {
+    const geo = new SphereGeometry( 0.2 );
+    const material = new MeshNormalMaterial();
+    const sphere = new Mesh( geo, material );
+    return sphere;
   }
 }

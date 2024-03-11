@@ -53,6 +53,8 @@ export class TestComponent extends SceneComponent {
       onLoadCB: this.onLoad.bind( this ),
     } );
 
+    this.debug();
+
   }
 
   createLayout () {
@@ -61,15 +63,25 @@ export class TestComponent extends SceneComponent {
     for ( let i = 0; i < 100; i++ ) {
       const box = this.primitives.createBox();
       boxes.push( box );
-      this.addToScene( box );
+      // this.addToScene( box );
     }
 
-    this.layout.scatterLayout( {
-      objects: boxes,
+    const spheres: Object3D[] = [];
+    for ( let i = 0; i < 100; i++ ) {
+      const sphere = this.primitives.createSphere( {} );
+      spheres.push( sphere );
+      this.addToScene( sphere );
+    }
+
+
+    this.layout.gridLayout( {
+      objects: spheres,
       width: 100,
       height: 100,
-      depth: 100
+      depth: 300
     } );
+    // @ts-ignore
+    // this.addToScene( ...spheres );
     // const boxes = this.primitives.createInstancedMesh( { count: 50 } );
     // boxes.position.z = -3;
     // this.addToScene(  );
