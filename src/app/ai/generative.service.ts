@@ -7,7 +7,6 @@ export class GenerativeService {
 
   constructor() {
 
-
   }
 
   generateImage ( prompt: string ) {

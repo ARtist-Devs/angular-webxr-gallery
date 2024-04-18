@@ -19,6 +19,7 @@ import { ImageGenComponent } from '../ai/image-gen/image-gen.component';
 } )
 
 export class GalleryComponent extends SceneComponent {
+  // TODO: @Input() artworks = [];
   constructor( ngZone: NgZone, loadersService: LoadersService, private primitives: PrimitivesService, xrService: XRService ) {
     super( ngZone, loadersService, xrService );
   }
