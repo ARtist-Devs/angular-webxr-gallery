@@ -1,9 +1,17 @@
 import { Injectable } from '@angular/core';
 
-@Injectable({
+@Injectable( {
   providedIn: 'root'
-})
+} )
 export class GenerativeService {
 
-  constructor() { }
+  constructor() {
+
+
+  }
+
+  generateImage ( prompt: string ) {
+    const imageUrl = '';
+    return imageUrl;
+  }
 }

@@ -8,11 +8,12 @@ import { PrimitivesService } from '../three/primitives.service';
 import { SceneComponent } from '../three/scene/scene.component';
 import { XRService } from '../three/xr.service';
 import { TestComponent } from '../three/test/test.component';
+import { ImageGenComponent } from '../ai/image-gen/image-gen.component';
 
 @Component( {
   selector: 'art-gallery',
   standalone: true,
-  imports: [SceneComponent, LoadingComponent, TestComponent],
+  imports: [SceneComponent, LoadingComponent, TestComponent, ImageGenComponent],
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss'
 } )

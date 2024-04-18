@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { GalleryComponent } from './gallery/gallery.component';
 import { LoadingComponent } from './loading/loading.component';
 import { TestComponent } from './three/test/test.component';
+import { ImageGenComponent } from './ai/image-gen/image-gen.component';
 
 export const routes: Routes = [
     {
@@ -20,8 +21,13 @@ export const routes: Routes = [
         title: 'Test'
     },
     {
+        path: 'imagegen',
+        component: ImageGenComponent,
+        title: 'Generative AI'
+    },
+    {
         path: '',
-        redirectTo: '/gallery',
+        redirectTo: '/imagegen',
         pathMatch: 'full'
     }
 ];

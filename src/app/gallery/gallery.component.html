@@ -1,6 +1,8 @@
-@defer () {
+<art-image-gen #gen />
+@defer (on interaction(gen);prefetch on idle) {
+
 <art-test />
-} @loading (after 1ms; minimum 5s) {
+} @placeholder ( minimum 5s) {
 <art-loading [delta]="loadersService.loadingProgress()"></art-loading>
 } @error {
 <p>Failed to load the gallery</p>
