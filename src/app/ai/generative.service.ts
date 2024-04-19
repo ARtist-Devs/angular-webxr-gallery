@@ -5,12 +5,9 @@ import { Injectable } from '@angular/core';
 } )
 export class GenerativeService {
 
-  constructor() {
 
-  }
-
-  generateImage ( prompt: string ) {
-    const imageUrl = '';
+  async generateImage ( prompt: string ) {
+    const imageUrl = 'assets/artworks/almond_blossom.webp';
     return imageUrl;
   }
 }

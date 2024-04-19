@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { SpeechService } from '../speech.service';
+import { GenerativeService } from '../generative.service';
+
 
 @Component( {
   selector: 'art-image-gen',
@@ -10,10 +13,13 @@ import { FormsModule } from '@angular/forms';
 } )
 export class ImageGenComponent {
   protected prompt = '';
+  private speech = inject( SpeechService );
+  private generative = inject( GenerativeService );
+  public generatedImage = { url: '', description: '', title: '', width: 500, height: 500 };
 
-  generateImage () {
-    console.info( 'Querying the model with prompt', this.prompt );
-
+  async generateImage () {
+    console.log( 'Querying the model with prompt', this.prompt );
+    this.generatedImage.url = await this.generative.generateImage( this.prompt );
   }
 
   speechInput () { }
