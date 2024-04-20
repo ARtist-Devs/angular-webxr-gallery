@@ -2,11 +2,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  input,
   Input,
+  InputSignal,
   NgZone,
   Signal,
   viewChild,
   ViewChild,
+  WritableSignal,
 } from '@angular/core';
 
 import GUI from 'lil-gui';
@@ -53,8 +56,7 @@ export class SceneComponent {
   public renderer: WebGLRenderer;
   private renderFunctions: Function[] = [];
 
-  @Input( { required: false } ) options: SceneOptions = {};
-
+  sceneOptions: InputSignal<SceneOptions> = input( {} );
   canvas: Signal<ElementRef<HTMLCanvasElement>> = viewChild( 'canvas' );
 
   constructor( private ngZone: NgZone, public loadersService: LoadersService, public xrService: XRService ) { }
@@ -62,9 +64,9 @@ export class SceneComponent {
   ngAfterViewInit (): void {
     const canvasEl = this.canvas().nativeElement;
 
-    this.options = Object.assign( {}, this.defaultOptions, this.options );
-    const w = this.options.width || canvasEl.width;
-    const h = this.options.height || canvasEl.height;
+    const options = Object.assign( {}, this.defaultOptions, this.sceneOptions );
+    const w = options.width || canvasEl.width;
+    const h = options.height || canvasEl.height;
 
     // Scene background
     this.scene.background = new Color( 'black' );
