@@ -13,12 +13,12 @@ export class SpeechService {
     recognition.interimResults = false;
     recognition.start();
 
+
     return new Promise( ( resolve, reject ) => {
       recognition.onresult = ( event: any ) => {
         resolve( event.results[0][0].transcript );
-        recognition.abort();
       };
-
+      recognition.onend = () => { recognition.stop(); };
       recognition.onerror = reject;
     } );
   }

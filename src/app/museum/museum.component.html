@@ -1,4 +1,4 @@
-<art-image-gen #gen />
+<art-image-gen (newArtworkEvent)="addArtwork($event)" #gen />
 @defer (on interaction(gen);prefetch on idle) {
 <art-test />
 <!-- <art-gallery /> -->

@@ -1,4 +1,4 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, inject, input, InputSignal, NgZone } from '@angular/core';
 
 import { Color, DirectionalLight, DirectionalLightHelper, HemisphereLight, HemisphereLightHelper, Mesh, MeshPhongMaterial, Object3D, PlaneGeometry } from 'three';
 
@@ -9,6 +9,8 @@ import { PrimitivesService } from '../primitives.service';
 import { RenderTargetService } from '../render-target.service';
 import { SceneComponent } from '../scene/scene.component';
 import { XRService } from '../xr.service';
+import { FrameService } from '../frame.service';
+import { Artwork, ArtworksService } from '../../artworks.service';
 
 @Component( {
   selector: 'art-test',
@@ -20,6 +22,10 @@ import { XRService } from '../xr.service';
 export class TestComponent extends SceneComponent {
   man: any;
   frames: Object3D[] = [];
+  private frameService = inject( FrameService );
+  private artworksService = inject( ArtworksService );
+  focusArtwork = this.artworksService.getFocusedArtwork();
+
   constructor(
     ngZone: NgZone,
     loadersService: LoadersService,
@@ -31,6 +37,7 @@ export class TestComponent extends SceneComponent {
     super( ngZone, loadersService, xrService );
   }
 
+
   ngOnInit () {
     // Layout test
     this.createBoxes();
@@ -38,6 +45,10 @@ export class TestComponent extends SceneComponent {
   }
   override ngAfterViewInit (): void {
     super.ngAfterViewInit();
+
+    // Focus frame
+    this.focusFrame();
+
 
     // Load the Man model
     this.man = this.loadersService.loadGLTF( {
@@ -51,6 +62,13 @@ export class TestComponent extends SceneComponent {
     // Lights
     this.addLights();
 
+  }
+
+  focusFrame () {
+    const focusedFrame =
+      this.frameService.createFrame( this.focusArtwork );
+    focusedFrame.position.z = -4;
+    this.scene.add( focusedFrame );
   }
 
   createLayout () {
@@ -70,8 +88,8 @@ export class TestComponent extends SceneComponent {
     let h = 600 / n;
     let d = 800 / n;
     const boxes: Object3D[] = [];
-    for ( let i = 0; i < 100; i++ ) {
-      const box = this.primitives.createBox();
+    for ( let i = 0; i < 30; i++ ) {
+      const box = this.primitives.createBox( { x: 2, y: 2, z: 0.5 } );
       box.position.x = w * Math.random() - w / 2;
       box.position.y = h * Math.random() - h / 2;
       box.position.z = d * Math.random() - d / 2;
@@ -89,9 +107,9 @@ export class TestComponent extends SceneComponent {
     // } );
 
 
-    // setTimeout( () => {
-    //   this.createLayout();
-    // }, 2500 );
+    setTimeout( () => {
+      this.createLayout();
+    }, 500 );
 
   }
 
