@@ -96,4 +96,5 @@ export class SpeechService {
     { label: '日本語', lang: 'ja-JP' },
     { label: 'Lingua latīna', lang: 'la' },
   ];
+
 }

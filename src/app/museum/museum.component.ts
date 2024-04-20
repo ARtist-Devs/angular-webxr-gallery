@@ -6,6 +6,7 @@ import { GalleryComponent } from '../gallery/gallery.component';
 import { TestComponent } from '../three/test/test.component';
 import { Artwork, ArtworksService } from '../artworks.service';
 
+
 @Component( {
   selector: 'art-museum',
   standalone: true,
@@ -25,5 +26,6 @@ export class MuseumComponent {
     // this.focusArtwork = signal( artwork );
     // console.log( 'Artworks array addedv', this.artworks );
   }
+
 
 }

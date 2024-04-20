@@ -5,6 +5,7 @@ import { Artwork } from '../../artworks.service';
 import { GenerativeService } from '../generative.service';
 import { SpeechService } from '../speech.service';
 
+
 @Component( {
   selector: 'art-image-gen',
   standalone: true,

@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 export class GenerativeService {
 
 
-
   async generateImage ( prompt: string ) {
     // TODO: get from Vertex
     const image = {
@@ -33,5 +32,6 @@ The people in the hallway appear to be admiring the art and architecture, sugges
 By focusing on these details, viewers can fully appreciate the artistry and symbolism embedded within this captivating artwork.`, title: 'a futuristic hallway with sculptures and paintings on the walls', width: 500, height: 500
     };
     return image;
+
   }
 }
