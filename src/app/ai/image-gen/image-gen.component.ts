@@ -16,7 +16,7 @@ export class ImageGenComponent {
   private speech = inject( SpeechService );
   private generative = inject( GenerativeService );
   public generatedImage: Artwork = {
-    url: 'src/assets/artworks/Designer_0.webp', description: `A Symphony of Light and Color: Describing the Artwork. The image portrays a breathtaking art nouveau hallway bathed in warm sunlight.The scene is a vibrant tapestry of swirling patterns, intricate details, and celestial motifs, creating a truly mesmerizing experience.Here's what a viewer should focus on:
+    url: 'assets/artworks/Designer_0.webp', description: `A Symphony of Light and Color: Describing the Artwork. The image portrays a breathtaking art nouveau hallway bathed in warm sunlight.The scene is a vibrant tapestry of swirling patterns, intricate details, and celestial motifs, creating a truly mesmerizing experience.Here's what a viewer should focus on:
 
 Dominant Features:
 
@@ -44,7 +44,7 @@ By focusing on these details, viewers can fully appreciate the artistry and symb
 
   async generateImage () {
     console.log( 'Querying the model with prompt', this.prompt );
-    this.generatedImage.url = await this.generative.generateImage( this.prompt );
+    // this.generatedImage.url = await this.generative.generateImage( this.prompt );
     this.newArtworkEvent.emit( this.generatedImage );
   }
 

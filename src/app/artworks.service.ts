@@ -167,7 +167,6 @@ export class ArtworksService {
     },
   ];
 
-
   public artworks = signal( this.artworksArray );
   public focusedArtwork = signal( this.artworksArray[0] );
 

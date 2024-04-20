@@ -39,6 +39,7 @@ export class TestComponent extends SceneComponent {
 
 
   ngOnInit () {
+    this.focusArtwork = this.artworksService.getFocusedArtwork();
     // Layout test
     this.createBoxes();
 

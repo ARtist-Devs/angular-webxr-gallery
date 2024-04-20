@@ -44,8 +44,8 @@ export class SceneComponent {
   public scene: Scene = new Scene();
 
   private defaultOptions: SceneOptions = {
-    width: window.innerWidth || 800,
-    height: window.innerHeight || 600,
+    width: window.innerWidth || 900,
+    height: window.innerHeight || 400,
   };
   // @ts-ignore
   public renderer: WebGLRenderer;
