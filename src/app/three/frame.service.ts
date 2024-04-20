@@ -19,6 +19,7 @@ export class FrameService {
     texture.colorSpace = SRGBColorSpace;
     texture.mapping = UVMapping;
     const canvasMaterial = this.phongMaterial.clone();
+    canvasMaterial.needsUpdate = true;
     canvasMaterial.map = texture;
 
     const canvas = this.primitivesService.createBox( { x: 1, y: 1, z: 0.6, material: canvasMaterial } );

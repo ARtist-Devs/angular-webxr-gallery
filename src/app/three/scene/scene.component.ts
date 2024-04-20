@@ -2,14 +2,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  input,
-  Input,
-  InputSignal,
+  input, InputSignal,
   NgZone,
   Signal,
-  viewChild,
-  ViewChild,
-  WritableSignal,
+  viewChild
 } from '@angular/core';
 
 import GUI from 'lil-gui';

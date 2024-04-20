@@ -16,10 +16,12 @@ import { Artwork, ArtworksService } from '../artworks.service';
 export class MuseumComponent {
   private artworksService = inject( ArtworksService );
   artworks: Artwork[] = [];
-  focusArtwork: any;
+  focusArtwork: WritableSignal<Artwork> = signal( this.artworksService.getFocusedArtwork() );
+
 
   addArtwork ( artwork: Artwork ) {
-    this.artworksService.addArtwork( artwork );
+    this.focusArtwork.set( artwork );
+    // this.artworksService.addArtwork( artwork );
     // this.focusArtwork = signal( artwork );
     // console.log( 'Artworks array addedv', this.artworks );
   }

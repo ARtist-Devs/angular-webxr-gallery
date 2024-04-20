@@ -1,8 +1,9 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SpeechService } from '../speech.service';
-import { GenerativeService } from '../generative.service';
+
 import { Artwork } from '../../artworks.service';
+import { GenerativeService } from '../generative.service';
+import { SpeechService } from '../speech.service';
 
 @Component( {
   selector: 'art-image-gen',
@@ -41,8 +42,8 @@ By focusing on these details, viewers can fully appreciate the artistry and symb
   };
 
   // TODO: change to new syntax
-  @Output() newArtworkEvent = new EventEmitter<Artwork>();
-
+  // @Output() newArtworkEvent = new EventEmitter<Artwork>();
+  newArtworkEvent = output<Artwork>();
   async generateImage () {
     console.log( 'Querying the model with prompt', this.prompt );
     this.generatedImage = await this.generative.generateImage( this.prompt );

@@ -24,6 +24,8 @@ export class TestComponent extends SceneComponent {
   frames: Object3D[] = [];
   private frameService = inject( FrameService );
   private artworksService = inject( ArtworksService );
+
+  fa: InputSignal<Artwork> = input.required();
   focusArtwork = this.artworksService.getFocusedArtwork();
 
   constructor(
@@ -63,7 +65,7 @@ export class TestComponent extends SceneComponent {
     // Lights
     this.addLights();
 
-  }
+  };
 
   focusFrame () {
     this.focusArtwork = this.artworksService.getFocusedArtwork();
