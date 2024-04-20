@@ -27,7 +27,6 @@ export class FrameService {
   }
 
   createFrame ( artwork: Artwork ) {
-    console.log( "AW", artwork );
     const frame = new Group();
     frame.name = `${artwork.title} Frame`;
 

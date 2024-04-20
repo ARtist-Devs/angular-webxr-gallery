@@ -39,7 +39,7 @@ export class TestComponent extends SceneComponent {
 
 
   ngOnInit () {
-    this.focusArtwork = this.artworksService.getFocusedArtwork();
+
     // Layout test
     this.createBoxes();
 
@@ -66,6 +66,7 @@ export class TestComponent extends SceneComponent {
   }
 
   focusFrame () {
+    this.focusArtwork = this.artworksService.getFocusedArtwork();
     const focusedFrame =
       this.frameService.createFrame( this.focusArtwork );
     focusedFrame.position.z = -4;

@@ -4,6 +4,8 @@ import {
   ElementRef,
   Input,
   NgZone,
+  Signal,
+  viewChild,
   ViewChild,
 } from '@angular/core';
 
@@ -53,17 +55,16 @@ export class SceneComponent {
 
   @Input( { required: false } ) options: SceneOptions = {};
 
-  @ViewChild( 'canvas', { static: true } ) canvas!: ElementRef<HTMLCanvasElement>;
-  private get canvasEl (): HTMLCanvasElement {
-    return this.canvas?.nativeElement;
-  }
+  canvas: Signal<ElementRef<HTMLCanvasElement>> = viewChild( 'canvas' );
 
   constructor( private ngZone: NgZone, public loadersService: LoadersService, public xrService: XRService ) { }
 
   ngAfterViewInit (): void {
+    const canvasEl = this.canvas().nativeElement;
+
     this.options = Object.assign( {}, this.defaultOptions, this.options );
-    const w = this.options.width || this.canvasEl.width;
-    const h = this.options.height || this.canvasEl.height;
+    const w = this.options.width || canvasEl.width;
+    const h = this.options.height || canvasEl.height;
 
     // Scene background
     this.scene.background = new Color( 'black' );
@@ -75,7 +76,7 @@ export class SceneComponent {
 
     // Renderer
     this.renderer = new WebGLRenderer( {
-      canvas: this.canvasEl,
+      canvas: canvasEl,
       antialias: true,
       alpha: true,
     } );
@@ -94,7 +95,7 @@ export class SceneComponent {
     );
 
     this.afterInit();
-  }
+  };
 
   afterInit () {
     // XR 
