@@ -16,7 +16,7 @@ export class GenerativeService {
                   description:
                         "Van Gogh painted this still life in the psychiatric hospital in Saint-Remy. For him, the painting was mainly a study in color. He set out to achieve a powerful color contrast. By placing the purple flowers against a yellow background, he made the decorative forms stand out even more strongly. The irises were originally purple. But as the red pigment has faded, they have turned blue. Van Gogh made two paintings of this bouquet. In the other still life, he contrasted purple and pink with green.",
                   height: 93,
-                  url: "assets/artworks/Designer_15.jpeg",
+                  url: "assets/artworks/d8.jpeg",
                   prompt: 'Streets of of Roma Forum in year 300',
                   votes: 56,
                   width: 74,

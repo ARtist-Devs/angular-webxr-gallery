@@ -521,6 +521,32 @@ export class ArtworksService {
         "rgb(168, 128, 183)",
       ],
     },
+    {
+      id: 4,
+      title: "Woman with a fox",
+      audio: "assets/audio/1.mp3",
+      date: "1889",
+      description:
+        "The image showcases a young woman, dressed in an opulent orange kimono adorned with intricate patterns and gold embellishments. Her hair is styled elegantly with a vibrant orange flower tucked behind her ear. She gazes serenely at the viewer with a gentle expression. The woman holds a majestic red fox with thick fur, its eyes locked onto something beyond the frame. Golden butterflies and leaves flutter around them, creating a sense of enchantment and movement. The background is a rich tapestry of teal and brown hues, adding depth and contrast to the scene.",
+      height: 93,
+      url: "assets/artworks/d8.jpeg",
+      prompt: 'A woman in traditional Japaneese clothing with its pet fox',
+      votes: 56,
+      width: 74,
+      wiki: "https://en.wikipedia.org/wiki/Vase_with_Irises_Against_a_Yellow_Background",
+      colors: [
+        "rgb(16, 96, 139)",
+        "rgb(92, 139, 148)",
+        "rgb(63, 107, 72)",
+        "rgb(134, 120, 165)",
+        "rgb(12, 46, 87)",
+        "rgb(243, 232, 85)",
+        "rgb(124, 158, 162)",
+        "rgb(246, 242, 132)",
+        "rgb(227, 208, 101)",
+        "rgb(168, 128, 183)",
+      ],
+    },
   ];
 
   public artworks = signal( this.artworksArray );
