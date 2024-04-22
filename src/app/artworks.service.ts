@@ -530,7 +530,7 @@ export class ArtworksService {
         "The image showcases a young woman, dressed in an opulent orange kimono adorned with intricate patterns and gold embellishments. Her hair is styled elegantly with a vibrant orange flower tucked behind her ear. She gazes serenely at the viewer with a gentle expression. The woman holds a majestic red fox with thick fur, its eyes locked onto something beyond the frame. Golden butterflies and leaves flutter around them, creating a sense of enchantment and movement. The background is a rich tapestry of teal and brown hues, adding depth and contrast to the scene.",
       height: 93,
       url: "assets/artworks/d8.jpeg",
-      prompt: 'A woman in traditional Japaneese clothing with its pet fox',
+      prompt: 'A woman in traditional Japaneese clothing and her pet fox',
       votes: 56,
       width: 74,
       wiki: "https://en.wikipedia.org/wiki/Vase_with_Irises_Against_a_Yellow_Background",
