@@ -1,6 +1,9 @@
 import { Component, effect, inject, input, InputSignal, NgZone } from '@angular/core';
 
-import { Color, DirectionalLight, DirectionalLightHelper, Group, HemisphereLight, HemisphereLightHelper, Mesh, MeshPhongMaterial, Object3D, PlaneGeometry } from 'three';
+import { BoxGeometry, Color, DirectionalLight, DirectionalLightHelper, Group, HemisphereLight, HemisphereLightHelper, Mesh, MeshPhongMaterial, MeshStandardMaterial, Object3D, PlaneGeometry, RectAreaLight } from 'three';
+import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js';
+import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
+
 import { animate, easeIn, easeInOut } from 'popmotion';
 
 import { LayoutButtonsComponent } from '../../layout-buttons/layout-buttons.component';
@@ -184,42 +187,71 @@ export class TestComponent extends SceneComponent {
   addEnvironment () {
 
     // Scene background
-    this.scene.background = new Color( 0xa8def0 );
+    // this.scene.background = new Color( 0xa8def0 );
     // this.scene.fog = new Fog( 0xa0a0a0, 10, 50 );
 
-    // ground
-    const mesh = new Mesh( new PlaneGeometry( 20, 20 ), new MeshPhongMaterial( { color: 0xcbcbcb, depthWrite: false } ) );
-    mesh.rotation.x = - Math.PI / 2;
-    mesh.receiveShadow = true;
-    this.scene.add( mesh );
+    // // ground
+    // const mesh = new Mesh( new PlaneGeometry( 20, 20 ), new MeshPhongMaterial( { color: 0xcbcbcb, depthWrite: false } ) );
+    // mesh.rotation.x = - Math.PI / 2;
+    // mesh.receiveShadow = true;
+    // this.scene.add( mesh );
+
+    // Floor
+    const geoFloor = new BoxGeometry( 2000, 0.1, 2000 );
+    const matStdFloor = new MeshStandardMaterial( { color: 0xfffff, roughness: 0.1, metalness: 0 } );
+    const mshStdFloor = new Mesh( geoFloor, matStdFloor );
+    this.scene.add( mshStdFloor );
   }
 
   addLights () {
-    const hemiLight = new HemisphereLight( 0xffffff, 0x8d8d8d, 3 );
-    hemiLight.position.set( 0, 20, 0 );
+    // Hemlight
+    // const hemiLight = new HemisphereLight( 0xffffff, 0x8d8d8d, 3 );
+    // hemiLight.position.set( 0, 20, 0 );
 
-    const hHelper = new HemisphereLightHelper( hemiLight, 5, 'orange' );
-    this.scene.add( hemiLight, hHelper );
+    // const hHelper = new HemisphereLightHelper( hemiLight, 5, 'orange' );
+    // this.scene.add( hemiLight );
 
-    const dirLight = new DirectionalLight( 0xffffff, 3 );
-    dirLight.position.set( 3, 10, 10 );
-    dirLight.castShadow = true;
-    dirLight.shadow.camera.top = 2;
-    dirLight.shadow.camera.bottom = - 2;
-    dirLight.shadow.camera.left = - 2;
-    dirLight.shadow.camera.right = 2;
-    dirLight.shadow.camera.near = 0.1;
-    dirLight.shadow.camera.far = 40;
+    // // Directional Lights
+    // const dirLight = new DirectionalLight( 0xffffff, 3 );
+    // dirLight.position.set( 3, 10, 10 );
+    // dirLight.castShadow = true;
+    // dirLight.shadow.camera.top = 2;
+    // dirLight.shadow.camera.bottom = - 2;
+    // dirLight.shadow.camera.left = - 2;
+    // dirLight.shadow.camera.right = 2;
+    // dirLight.shadow.camera.near = 0.1;
+    // dirLight.shadow.camera.far = 40;
 
-    const dHelper = new DirectionalLightHelper( dirLight, 5, );
-    this.scene.add( dirLight, dHelper );
+    // const dHelper = new DirectionalLightHelper( dirLight, 5, );
+    // this.scene.add( dirLight );
 
 
-    const light = new DirectionalLight();
-    light.position.set( 0.2, 1.5, -2 );
+    // const light = new DirectionalLight();
+    // light.position.set( 0.2, 1.5, -2 );
 
-    const helper = new DirectionalLightHelper( light, 5, 'red' );
-    this.scene.add( light, helper );
+    // const helper = new DirectionalLightHelper( light, 5, 'red' );
+    // this.scene.add( light );
+
+    // Area Lights
+    RectAreaLightUniformsLib.init();
+    const rectLights = new Group();
+    const rectLight1 = new RectAreaLight( 0xff0000, 5, 4, 10 );
+    rectLight1.position.set( - 5, 5, -5 );
+    rectLights.add( rectLight1 );
+
+    const rectLight2 = new RectAreaLight( 0x00ff00, 5, 4, 10 );
+    rectLight2.position.set( 0, 5, -5 );
+    rectLights.add( rectLight2 );
+
+    const rectLight3 = new RectAreaLight( 0x0000ff, 5, 4, 10 );
+    rectLight3.position.set( 5, 5, -5 );
+    rectLights.add( rectLight3 );
+    // rectLights.rotation.y = Math.PI;
+    rectLights.position.z = 15;
+    this.scene.add( rectLights );
+    this.scene.add( new RectAreaLightHelper( rectLight1 ) );
+    this.scene.add( new RectAreaLightHelper( rectLight2 ) );
+    this.scene.add( new RectAreaLightHelper( rectLight3 ) );
   }
 
   onLoad ( model: Object3D ) {

@@ -17,15 +17,11 @@ export class MuseumComponent {
   private artworksService = inject( ArtworksService );
   artworks: Artwork[] = [];
   focusArtwork: WritableSignal<Artwork> = signal( this.artworksService.getFocusedArtwork() );
-  constructor() {
-    // this.focusArtwork.set( this.artworksService.getFocusedArtwork() );
-    console.log( 'Constructor fa ', this.focusArtwork() );
-  }
+  promptSamples: string[] = ['Steampunk style labratory with a silluete of a character', 'streets of lake como italy in a steampunk era', 'streets of Roma Forum in year 300'];
+
   addArtwork ( artwork: Artwork ) {
     this.focusArtwork.set( artwork );
     this.artworksService.addArtwork( artwork );
-    // this.focusArtwork = signal( artwork );
-    // console.log( 'Artworks array addedv', this.artworks );
   }
 
 }
