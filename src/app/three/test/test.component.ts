@@ -1,6 +1,7 @@
 import { Component, inject, input, InputSignal, NgZone } from '@angular/core';
 
 import { Color, DirectionalLight, DirectionalLightHelper, HemisphereLight, HemisphereLightHelper, Mesh, MeshPhongMaterial, Object3D, PlaneGeometry } from 'three';
+import { animate, easeIn, easeInOut } from 'popmotion';
 
 import { LayoutButtonsComponent } from '../../layout-buttons/layout-buttons.component';
 import { LayoutService } from '../layout.service';
@@ -69,10 +70,17 @@ export class TestComponent extends SceneComponent {
 
   focusFrame () {
     this.focusArtwork = this.artworksService.getFocusedArtwork();
-    const focusedFrame =
-      this.frameService.createFrame( this.focusArtwork );
-    focusedFrame.position.z = -4;
+    const focusedFrame = this.frameService.createFrame( this.focusArtwork );
+    focusedFrame.position.z = -10;
     this.scene.add( focusedFrame );
+
+    animate( {
+      from: focusedFrame.position.z,
+      to: -4,
+      duration: 3000,
+      ease: easeInOut,
+      onUpdate: latest => focusedFrame.position.z = latest//console.log( "Updating the focused frame position ", focusedFrame.position.z )
+    } );
   }
 
   createLayout () {
