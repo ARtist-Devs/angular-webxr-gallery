@@ -5,6 +5,7 @@ import { CylinderGeometry, Group, MeshPhongMaterial, SRGBColorSpace, UVMapping }
 import { Artwork } from '../artworks.service';
 import { PrimitivesService } from './primitives.service';
 import { LoadersService } from './loaders.service';
+import { texture } from 'three/examples/jsm/nodes/nodes';
 
 @Injectable( {
   providedIn: 'root'
@@ -39,5 +40,19 @@ export class FrameService {
     frame.add( box, canvas );
     frame.position.y = 1;
     return frame;
+  }
+
+  updateFrame ( ops: any ) {
+
+    // ops.frame.children[1].getObjectByName( `Focused Canvas` );
+    const material = ops.frame.children[1].getObjectByName( `Focused Canvas` ).material;
+    const texture = this.loadersService.loadTexture( ops.texture );
+    texture.colorSpace = SRGBColorSpace;
+    texture.mapping = UVMapping;
+    material.map = texture;
+    material.map.userData = { url: ops.texture };
+    material.needsUpdate = true;
+    console.log( 'ops.frame', ops.frame.children[1].getObjectByName( `Focused Canvas` ).material.map, texture );
+
   }
 }

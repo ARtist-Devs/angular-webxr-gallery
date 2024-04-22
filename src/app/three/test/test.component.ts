@@ -81,6 +81,8 @@ export class TestComponent extends SceneComponent {
       ease: easeInOut,
       onUpdate: latest => focusedFrame.position.z = latest//console.log( "Updating the focused frame position ", focusedFrame.position.z )
     } );
+    //TODO: get the texture from the gen result
+    this.frameService.updateFrame( { texture: 'assets/artworks/Designer_2.webp', frame: focusedFrame } );
   }
 
   createLayout () {
