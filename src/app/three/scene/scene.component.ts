@@ -12,7 +12,7 @@ import GUI from 'lil-gui';
 import {
   ACESFilmicToneMapping,
   Clock,
-  Color, GridHelper, HemisphereLight, Object3D,
+  Color, Fog, GridHelper, HemisphereLight, Object3D,
   PCFSoftShadowMap,
   PerspectiveCamera, Scene,
   WebGLRenderer
@@ -20,11 +20,14 @@ import {
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import { update } from 'three/examples/jsm/libs/tween.module.js';
+import { color, pass, rangeFog } from 'three/examples/jsm/nodes/nodes.js';
 import { GPUStatsPanel } from 'three/examples/jsm/utils/GPUStatsPanel.js';
 import { XRButton } from 'three/examples/jsm/webxr/XRButton.js';
+import PostProcessing from 'three/examples/jsm/renderers/common/PostProcessing.js';
 
 import { LoadersService } from '../loaders.service';
 import { XRService } from '../xr.service';
+
 
 export interface SceneOptions {
   width?: number;
@@ -68,11 +71,13 @@ export class SceneComponent {
 
     // Scene background
     this.scene.background = new Color( 'black' );
-
+    this.scene.backgroundBlurriness = 0.3;
+    // this.scene.fog = new Fog( 0x20F0A0, 0.1, 100 );
     // Camera
     this.camera = new PerspectiveCamera( 45, w / h, 0.1, 500 );
     this.camera.position.set( 0, 1.6, 0 );
     this.scene.add( this.camera );
+
 
     // Renderer
     this.renderer = new WebGLRenderer( {
@@ -114,6 +119,7 @@ export class SceneComponent {
     // Check XR Support and determine if the session is AR or VR
     // Initiate a session if supported
     this.xrService.checkXRSupport( { renderer: this.renderer, camera: this.camera, scene: this.scene } );
+    this.addFog();
   }
 
   // Render function runs on each frame
@@ -184,6 +190,29 @@ export class SceneComponent {
   addLight () {
     const ambient = new HemisphereLight( 0xffffff, 0xbbbbff, 3 );
     this.scene.add( ambient );
+  }
+
+  addFog () {
+    // let postProcessing;
+    // const scenePass = pass( this.scene, this.camera );
+    // const scenePassViewZ = scenePass.getViewZNode();
+
+    // // background color
+    // const backgroundColor = color( 0x0066ff );
+    // // get fog factor from scene pass context
+    // // equivalent to: scene.fog = new Fog( 0x0066ff, 2.7, 4 );
+    // const fogFactor = rangeFog( null, 2.7, 4 ).context( { getViewZ: () => scenePassViewZ } );
+
+    // // tone mapping scene pass
+    // const scenePassTM = scenePass.toneMapping( ACESFilmicToneMapping );
+
+    // // mix fog from fog factor and background color
+    // const compose = fogFactor.mix( scenePassTM, backgroundColor );
+
+    // // @ts-ignore
+    // postProcessing = new PostProcessing( this.renderer );
+    // postProcessing.outputNode = compose;
+    // this.addToRender( () => postProcessing.render() );
   }
 
   debug () {
