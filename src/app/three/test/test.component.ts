@@ -1,20 +1,20 @@
 import { Component, effect, inject, input, InputSignal, NgZone } from '@angular/core';
 
-import { BoxGeometry, Color, DirectionalLight, DirectionalLightHelper, Group, HemisphereLight, HemisphereLightHelper, Mesh, MeshPhongMaterial, MeshStandardMaterial, Object3D, PlaneGeometry, RectAreaLight } from 'three';
+import { BoxGeometry, DirectionalLight, Group, Mesh, MeshStandardMaterial, Object3D, RectAreaLight } from 'three';
 import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js';
 import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
 
-import { animate, easeIn, easeInOut } from 'popmotion';
+import { animate, easeInOut } from 'popmotion';
 
+import { Artwork, ArtworksService } from '../../artworks.service';
 import { LayoutButtonsComponent } from '../../layout-buttons/layout-buttons.component';
+import { FrameService } from '../frame.service';
 import { LayoutService } from '../layout.service';
 import { LoadersService } from '../loaders.service';
 import { PrimitivesService } from '../primitives.service';
 import { RenderTargetService } from '../render-target.service';
 import { SceneComponent } from '../scene/scene.component';
 import { XRService } from '../xr.service';
-import { FrameService } from '../frame.service';
-import { Artwork, ArtworksService } from '../../artworks.service';
 
 @Component( {
   selector: 'art-test',
@@ -28,7 +28,7 @@ export class TestComponent extends SceneComponent {
   frames: Object3D[] = [];
   private frameService = inject( FrameService );
   private artworksService = inject( ArtworksService );
-
+  private artworks = this.artworksService.artworks();
   fa: InputSignal<Artwork> = input.required();
   focusArtwork = this.artworksService.getFocusedArtwork();
   private focusedFrame: any;
@@ -106,7 +106,12 @@ export class TestComponent extends SceneComponent {
     let h = 600 / n;
     let d = 800 / n;
     const boxes: Object3D[] = [];
+    const artworks = this.artworksService.artworks();
+    // this.frameService.createSmallFrame();
     for ( let i = 0; i < 30; i++ ) {
+
+      // const box = this.frameService.createSmallFrame( { artwork: artworks[i] } );
+      //
       const box = this.primitives.createBox( { x: 2, y: 2, z: 0.5 } );
 
       box.position.x = w * Math.random() - w / 2;
@@ -120,8 +125,6 @@ export class TestComponent extends SceneComponent {
 
     setTimeout( () => {
       this.createLayout();
-
-
     }, 500 );
 
 
