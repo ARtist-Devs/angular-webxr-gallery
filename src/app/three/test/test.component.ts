@@ -126,7 +126,6 @@ export class TestComponent extends SceneComponent {
       this.createLayout();
     }, 500 );
 
-
   }
 
   addMan () {
@@ -185,21 +184,12 @@ export class TestComponent extends SceneComponent {
 
   addEnvironment () {
 
-    // Scene background
-    // this.scene.background = new Color( 0xa8def0 );
-    // this.scene.fog = new Fog( 0xa0a0a0, 10, 50 );
-
-    // // ground
-    // const mesh = new Mesh( new PlaneGeometry( 20, 20 ), new MeshPhongMaterial( { color: 0xcbcbcb, depthWrite: false } ) );
-    // mesh.rotation.x = - Math.PI / 2;
-    // mesh.receiveShadow = true;
-    // this.scene.add( mesh );
-
     // Floor
     const geoFloor = new BoxGeometry( 2000, 0.1, 2000 );
     const matStdFloor = new MeshStandardMaterial( { color: 0xfffff, roughness: 0.1, metalness: 0 } );
     const mshStdFloor = new Mesh( geoFloor, matStdFloor );
     this.scene.add( mshStdFloor );
+
   }
 
   addLights () {
