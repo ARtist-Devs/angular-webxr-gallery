@@ -17,7 +17,7 @@ export class FrameService {
   // frameGeometry: any = new CylinderGeometry( 0.8, 0.7, 0.1, 64, 5 );
 
   createCanvas ( options: any ) {
-    const ops = Object.assign( {}, options, { x: 2, y: 2, z: 0.6 } );
+    const ops = Object.assign( {}, { x: 2, y: 2, z: 0.6 }, options, );
     const texture = this.loadersService.loadTexture( ops.artwork.url );
     texture.colorSpace = SRGBColorSpace;
     texture.mapping = UVMapping;
@@ -45,9 +45,9 @@ export class FrameService {
     const frame = new Group();
     frame.name = 'Small frame group';
 
-    const box = this.primitivesService.createBox( { x: 2, y: 2, z: 0.5 } );
+    const box = this.primitivesService.createBox( { x: 2, y: 2, z: 0.3 } );
 
-    const canvas = this.createCanvas( { artwork: ops.artwork, x: 1, y: 1, z: 0.6 } );
+    const canvas = this.createCanvas( { artwork: ops.artwork, x: 1, y: 1, z: 0.35 } );
     frame.add( box, canvas );
     return frame;
   }

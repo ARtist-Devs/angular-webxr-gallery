@@ -90,7 +90,8 @@ export class TestComponent extends SceneComponent {
   }
 
   createLayout () {
-    this.layout.cylindricalLayout( {
+
+    this.layout.gridLayout( {
       objects: this.frames,
       n: 4,
       width: 100,
@@ -114,12 +115,9 @@ export class TestComponent extends SceneComponent {
     let d = 800 / n;
     const boxes: Object3D[] = [];
     const artworks = this.artworksService.artworks();
-    // this.frameService.createSmallFrame();
-    for ( let i = 0; i < 30; i++ ) {
+    for ( let i = 0; i < 50; i++ ) {
 
-      // const box = this.frameService.createSmallFrame( { artwork: artworks[i] } );
-      //
-      const box = this.primitives.createBox( { x: 2, y: 2, z: 0.5 } );
+      const box = this.frameService.createSmallFrame( { artwork: artworks[i % 20] } );
 
       box.position.x = w * Math.random() - w / 2;
       box.position.y = h * Math.random() - h / 2;
