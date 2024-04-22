@@ -49,7 +49,6 @@ export class TestComponent extends SceneComponent {
     } );
   }
 
-
   ngOnInit () {
 
     // Layout test
@@ -62,9 +61,6 @@ export class TestComponent extends SceneComponent {
 
     // Focus frame
     this.focusFrame();
-
-
-
 
     // Environment
     this.addEnvironment();
@@ -112,6 +108,7 @@ export class TestComponent extends SceneComponent {
     const boxes: Object3D[] = [];
     for ( let i = 0; i < 30; i++ ) {
       const box = this.primitives.createBox( { x: 2, y: 2, z: 0.5 } );
+
       box.position.x = w * Math.random() - w / 2;
       box.position.y = h * Math.random() - h / 2;
       box.position.z = d * Math.random() - d / 2;
@@ -120,14 +117,6 @@ export class TestComponent extends SceneComponent {
     }
 
     this.frames = boxes;
-
-    // this.addToRender( () => {
-    //   // const vec = new Vector3();
-    //   this.frames.forEach( ( obj ) => {
-    //     obj.lookAt( this.camera.position );
-    //   } );
-    // } );
-
 
     setTimeout( () => {
       this.createLayout();
