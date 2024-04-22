@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/angular-webxr-gallery/browser",
+    "public": "dist/angular-webxr-gallery/browser/",
     "ignore": [
       "firebase.json",
       "**/.*",
