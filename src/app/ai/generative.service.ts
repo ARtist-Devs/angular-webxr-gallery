@@ -9,7 +9,7 @@ export class GenerativeService {
   async generateImage ( prompt: string ) {
     // TODO: get from Vertex
     const image = {
-      url: 'assets/artworks/Designer_2.webp', description: `A Symphony of Light and Color: Describing the Artwork. The image portrays a breathtaking art nouveau hallway bathed in warm sunlight.The scene is a vibrant tapestry of swirling patterns, intricate details, and celestial motifs, creating a truly mesmerizing experience.Here's what a viewer should focus on:
+      url: 'assets/artworks/Designer_1.webp', description: `A Symphony of Light and Color: Describing the Artwork. The image portrays a breathtaking art nouveau hallway bathed in warm sunlight.The scene is a vibrant tapestry of swirling patterns, intricate details, and celestial motifs, creating a truly mesmerizing experience.Here's what a viewer should focus on:
 
 Dominant Features:
 

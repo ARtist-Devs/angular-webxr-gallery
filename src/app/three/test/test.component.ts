@@ -1,6 +1,6 @@
-import { Component, inject, input, InputSignal, NgZone } from '@angular/core';
+import { Component, effect, inject, input, InputSignal, NgZone } from '@angular/core';
 
-import { Color, DirectionalLight, DirectionalLightHelper, HemisphereLight, HemisphereLightHelper, Mesh, MeshPhongMaterial, Object3D, PlaneGeometry } from 'three';
+import { Color, DirectionalLight, DirectionalLightHelper, Group, HemisphereLight, HemisphereLightHelper, Mesh, MeshPhongMaterial, Object3D, PlaneGeometry } from 'three';
 import { animate, easeIn, easeInOut } from 'popmotion';
 
 import { LayoutButtonsComponent } from '../../layout-buttons/layout-buttons.component';
@@ -28,6 +28,7 @@ export class TestComponent extends SceneComponent {
 
   fa: InputSignal<Artwork> = input.required();
   focusArtwork = this.artworksService.getFocusedArtwork();
+  private focusedFrame: any;
 
   constructor(
     ngZone: NgZone,
@@ -36,8 +37,13 @@ export class TestComponent extends SceneComponent {
     xrService: XRService,
     private renderTargetService: RenderTargetService,
     private layout: LayoutService
+
   ) {
     super( ngZone, loadersService, xrService );
+    effect( () => {
+      console.log( `The current focused is: ${this.fa().url}` );
+      this.frameService.updateFrame( { texture: this.fa().url, frame: this.focusedFrame } );
+    } );
   }
 
 
@@ -47,6 +53,7 @@ export class TestComponent extends SceneComponent {
     this.createBoxes();
 
   }
+
   override ngAfterViewInit (): void {
     super.ngAfterViewInit();
 
@@ -81,6 +88,8 @@ export class TestComponent extends SceneComponent {
       ease: easeInOut,
       onUpdate: latest => focusedFrame.position.z = latest//console.log( "Updating the focused frame position ", focusedFrame.position.z )
     } );
+
+    this.focusedFrame = focusedFrame;
     //TODO: get the texture from the gen result
     this.frameService.updateFrame( { texture: 'assets/artworks/Designer_2.webp', frame: focusedFrame } );
   }

@@ -6,7 +6,6 @@ import { GalleryComponent } from '../gallery/gallery.component';
 import { TestComponent } from '../three/test/test.component';
 import { Artwork, ArtworksService } from '../artworks.service';
 
-
 @Component( {
   selector: 'art-museum',
   standalone: true,
@@ -18,14 +17,15 @@ export class MuseumComponent {
   private artworksService = inject( ArtworksService );
   artworks: Artwork[] = [];
   focusArtwork: WritableSignal<Artwork> = signal( this.artworksService.getFocusedArtwork() );
-
-
+  constructor() {
+    // this.focusArtwork.set( this.artworksService.getFocusedArtwork() );
+    console.log( 'Constructor fa ', this.focusArtwork() );
+  }
   addArtwork ( artwork: Artwork ) {
     this.focusArtwork.set( artwork );
-    // this.artworksService.addArtwork( artwork );
+    this.artworksService.addArtwork( artwork );
     // this.focusArtwork = signal( artwork );
     // console.log( 'Artworks array addedv', this.artworks );
   }
-
 
 }
