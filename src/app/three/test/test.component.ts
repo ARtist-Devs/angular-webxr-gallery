@@ -64,11 +64,7 @@ export class TestComponent extends SceneComponent {
     this.focusFrame();
 
 
-    // Load the Man model
-    this.man = this.loadersService.loadGLTF( {
-      path: '/assets/models/man.glb',
-      onLoadCB: this.onLoad.bind( this ),
-    } );
+
 
     // Environment
     this.addEnvironment();
@@ -89,12 +85,12 @@ export class TestComponent extends SceneComponent {
       to: -4,
       duration: 3000,
       ease: easeInOut,
-      onUpdate: latest => focusedFrame.position.z = latest//console.log( "Updating the focused frame position ", focusedFrame.position.z )
+      onUpdate: latest => focusedFrame.position.z = latest,
+      onComplete: () => this.addMan()
     } );
 
     this.focusedFrame = focusedFrame;
-    //TODO: get the texture from the gen result
-    this.frameService.updateFrame( { texture: 'assets/artworks/Designer_2.webp', frame: focusedFrame } );
+
   }
 
   createLayout () {
@@ -135,7 +131,19 @@ export class TestComponent extends SceneComponent {
 
     setTimeout( () => {
       this.createLayout();
+
+
     }, 500 );
+
+
+  }
+
+  addMan () {
+    // Load the Man model
+    this.man = this.loadersService.loadGLTF( {
+      path: '/assets/models/man.glb',
+      onLoadCB: this.onLoad.bind( this ),
+    } );
 
   }
 

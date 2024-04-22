@@ -2,7 +2,7 @@ import { Injectable, signal, WritableSignal } from '@angular/core';
 
 import * as m from 'gl-matrix';
 import { AdditiveBlending, BufferGeometry, Float32BufferAttribute, Line, LineBasicMaterial, Mesh, MeshBasicMaterial, Ray, RingGeometry, Vector3, WebGLRenderer } from 'three';
-import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory';
+import { XRControllerModelFactory } from 'three/examples/jsm/webxr/XRControllerModelFactory.js';
 
 
 @Injectable( {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { BoxGeometry, CanvasTexture, DynamicDrawUsage, InstancedMesh, Mesh, MeshBasicMaterial, MeshNormalMaterial, MeshPhongMaterial, MeshPhysicalMaterial, MeshStandardMaterial, PlaneGeometry, RepeatWrapping, SphereGeometry, Vector2 } from 'three';
-import { FlakesTexture } from 'three/examples/jsm/textures/FlakesTexture';
+import { FlakesTexture } from 'three/examples/jsm/textures/FlakesTexture.js';
 
 @Injectable( {
   providedIn: 'root'
