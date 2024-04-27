@@ -1,3 +1,4 @@
 export const environment = {
-    api_url: "https://us-central1-imagenio.cloudfunctions.net/xr-gallery-py"
+    production: true,
+    apiUrl: "https://us-central1-imagenio.cloudfunctions.net/xr-gallery-py"
 };

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 
 @Injectable( {
@@ -8,16 +8,17 @@ import { environment } from '../../environments/environment.development';
 } )
 export class GenerativeService {
       private http = inject( HttpClient );
-      private url = environment.api_url;
+      private url = environment.apiUrl;;
 
       async generateImage ( prompt: string ) {
+            console.log( 'Env ', environment );
             const params = {
                   image_prompt: encodeURIComponent( prompt ),
                   desc_prompt: encodeURIComponent( "Describe the image and tell me what makes this artwork beautiful" )
             };
-            this.http.get( this.url, { params: params } ).subscribe( ( response ) => {
-                  console.log( response );
-            } );
+            // this.http.get( this.url, { params: params } ).subscribe( ( response ) => {
+            //       console.log( response );
+            // } );
 
 
             // TODO: get from Vertex
