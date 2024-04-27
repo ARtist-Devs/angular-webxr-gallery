@@ -1,12 +1,25 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { environment } from '../../environments/environment.development';
+
 
 @Injectable( {
       providedIn: 'root'
 } )
 export class GenerativeService {
-
+      private http = inject( HttpClient );
+      private url = environment.api_url;
 
       async generateImage ( prompt: string ) {
+            const params = {
+                  image_prompt: encodeURIComponent( prompt ),
+                  desc_prompt: encodeURIComponent( "Describe the image and tell me what makes this artwork beautiful" )
+            };
+            this.http.get( this.url, { params: params } ).subscribe( ( response ) => {
+                  console.log( response );
+            } );
+
+
             // TODO: get from Vertex
             const image = {
                   id: 4,
