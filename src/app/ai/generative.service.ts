@@ -13,12 +13,14 @@ export class GenerativeService {
       async generateImage ( prompt: string ) {
             console.log( 'Env ', environment );
             const params = {
-                  image_prompt: encodeURIComponent( prompt ),
+                  image_prompt: encodeURIComponent( "a woman wearing kimono looking into the camera with bright colors" ),
                   desc_prompt: encodeURIComponent( "Describe the image and tell me what makes this artwork beautiful" )
             };
-            // this.http.get( this.url, { params: params } ).subscribe( ( response ) => {
-            //       console.log( response );
-            // } );
+
+            // Make a call to 
+            this.http.get( this.url, { params: params } ).subscribe( ( response ) => {
+                  console.log( response );
+            } );
 
 
             // TODO: get from Vertex
