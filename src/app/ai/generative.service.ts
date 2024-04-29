@@ -12,8 +12,8 @@ export class GenerativeService {
 
       // Generates an image and description
       generateImage ( ops: any ) {
-            const imagePrompt = ops.prompt || "a woman wearing kimono looking into the camera with bright colors";
-            const question = ops.question || "Describe the image and tell me what makes this artwork beautiful";
+            const imagePrompt = ops.prompt;
+            const question = ops.question; //|| "Describe the image and tell me what makes this artwork beautiful";
             const params = {
                   image_prompt: encodeURIComponent( imagePrompt ),
                   desc_prompt: encodeURIComponent( question )

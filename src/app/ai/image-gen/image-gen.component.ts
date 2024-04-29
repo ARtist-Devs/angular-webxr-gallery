@@ -23,7 +23,7 @@ export class ImageGenComponent {
   genImage () {
     this.prompt = this.prompt == '' ? 'a woman wearing kimono looking into the camera with bright colors' : this.prompt;
     this.question = this.question == '' ? 'Describe the image and tell me what makes this artwork beautiful' : this.question;
-    this.generative.generateImage( { imagePrompt: this.prompt, question: this.question } ).subscribe( ( response ) => {
+    this.generative.generateImage( { prompt: this.prompt, question: this.question } ).subscribe( ( response ) => {
       console.log( response );
       const image = {
         // @ts-expect-error
