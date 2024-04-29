@@ -3,7 +3,7 @@
     <section class="prompt form">
         <input id="pi" [(ngModel)]="prompt" placeholder="Describe an artwork you would like to create" type="text" />
         <!-- <mat-icon [hidden]="true" (click)="speechInput()" aria-hidden="false" aria-label="Microphone" fontIcon="microphone" /> -->
-        <button mat-button color="primary" [disabled]="prompt.length < 5" (click)="generateImage()">
+        <button mat-button color="primary" [disabled]="prompt.length < 5" (click)="genImage()">
             Generate
         </button>
     </section>
