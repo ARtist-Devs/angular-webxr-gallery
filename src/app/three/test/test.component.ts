@@ -42,7 +42,7 @@ export class TestComponent extends SceneComponent {
     private layout: LayoutService
 
   ) {
-    super( ngZone, loadersService, xrService );
+    super();
     effect( () => {
       console.log( `The current focused is: ${this.fa().url}` );
       this.frameService.updateFrame( { texture: this.fa().url, frame: this.focusedFrame } );
@@ -50,6 +50,7 @@ export class TestComponent extends SceneComponent {
   }
 
   ngOnInit () {
+
 
     // Layout test
     this.createBoxes();

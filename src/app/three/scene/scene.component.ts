@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   input, InputSignal,
   NgZone,
   Signal,
@@ -12,7 +13,7 @@ import GUI from 'lil-gui';
 import {
   ACESFilmicToneMapping,
   Clock,
-  Color, GridHelper, HemisphereLight, Object3D,
+  Color, Fog, GridHelper, HemisphereLight, Object3D,
   PCFSoftShadowMap,
   PerspectiveCamera, Scene,
   WebGLRenderer
@@ -41,6 +42,10 @@ export interface SceneOptions {
   styleUrl: './scene.component.scss',
 } )
 export class SceneComponent {
+  private zone: NgZone = inject( NgZone );
+  protected loadersService = inject( LoadersService );
+  protected xrService = inject( XRService );
+
   public camera: PerspectiveCamera;
   public clock = new Clock();
   public controls: OrbitControls;
@@ -58,8 +63,6 @@ export class SceneComponent {
   sceneOptions: InputSignal<SceneOptions> = input();
   canvas: Signal<ElementRef<HTMLCanvasElement>> = viewChild( 'canvas' );
 
-  constructor( private ngZone: NgZone, public loadersService: LoadersService, public xrService: XRService ) { }
-
   ngAfterViewInit (): void {
     const canvasEl = this.canvas().nativeElement;
 
@@ -70,7 +73,8 @@ export class SceneComponent {
     // Scene background
     this.scene.background = new Color( 'black' );
     this.scene.backgroundBlurriness = 0.3;
-    // this.scene.fog = new Fog( 0x20F0A0, 0.1, 100 );
+
+
     // Camera
     this.camera = new PerspectiveCamera( 45, w / h, 0.1, 500 );
     this.camera.position.set( 0, 1.6, 0 );
@@ -187,6 +191,14 @@ export class SceneComponent {
   addLight () {
     const ambient = new HemisphereLight( 0xffffff, 0xbbbbff, 3 );
     this.scene.add( ambient );
+  }
+
+  fog ( ops?: any ) {
+
+    // Heavy fog
+    const setcolor = 0xF02050;
+    this.scene.background = new Color( setcolor );
+    this.scene.fog = new Fog( setcolor, 12, 20 );
   }
 
   debug () {

@@ -21,20 +21,23 @@ export class ImageGenComponent {
   newArtworkEvent = output<Artwork>();
 
   genImage () {
-    this.prompt = this.prompt == '' ? 'a woman wearing kimono looking into the camera with bright colors' : this.prompt;
+
+    this.prompt = this.prompt == '' ? 'A steampunk era science lab with a stylish figure in silhouette with dramatic lighting and vibrant colors dominated with copper hue' : this.prompt;
     this.question = this.question == '' ? 'Describe the image and tell me what makes this artwork beautiful' : this.question;
-    this.generative.generateImage( { prompt: this.prompt, question: this.question } ).subscribe( ( response ) => {
-      console.log( response );
-      const image = {
-        // @ts-expect-error
-        url: `data:image/png;base64,${response.image}`,
-        // @ts-expect-error
-        description: response.caption
-      };
 
-      this.newArtworkEvent.emit( image );
+    // Call the service to generate image and emit the new image info
+    // this.generative.generateImage( { prompt: this.prompt, question: this.question } ).subscribe( ( response ) => {
+    //   console.log( response );
+    //   const image = {
+    //     // @ts-expect-error
+    //     url: `data:image/png;base64,${response.image}`,
+    //     // @ts-expect-error
+    //     description: response.caption
+    //   };
 
-    } );
+    //   this.newArtworkEvent.emit( image );
+
+    // } );
 
   }
 

@@ -21,7 +21,7 @@ import { ImageGenComponent } from '../ai/image-gen/image-gen.component';
 export class GalleryComponent extends SceneComponent {
   // TODO: @Input() artworks = [];
   constructor( ngZone: NgZone, loadersService: LoadersService, private primitives: PrimitivesService, xrService: XRService ) {
-    super( ngZone, loadersService, xrService );
+    super();
   }
 
   override ngAfterViewInit (): void {
@@ -32,11 +32,17 @@ export class GalleryComponent extends SceneComponent {
       path: '/assets/models/aLogo.glb',
       onLoadCB: this.onLoad.bind( this ),
     } );
+
     this.createEnv();
+    // Add Camera movement
   }
 
   createEnv () {
     this.addLights();
+
+    // Add Model
+    // Add Frames
+    // Add UI
 
     // this.debug();
   }
