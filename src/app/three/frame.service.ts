@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 
-import { Group, MeshPhongMaterial, SRGBColorSpace, UVMapping } from 'three';
+import { BoxGeometry, CylinderGeometry, Group, MeshPhongMaterial, SRGBColorSpace, UVMapping } from 'three';
 
 import { Artwork } from '../artworks.service';
 import { LoadersService } from './loaders.service';
@@ -17,6 +17,7 @@ export class FrameService {
   canvasMaterial: MeshPhongMaterial = new MeshPhongMaterial();
   frameDistance = 7;
   frames: Group[] = [];
+  frameGeometry: any = new CylinderGeometry( 0.8, 0.7, 0.1, 64, 5 );
 
 
   createCanvas ( options: any ) {
@@ -54,8 +55,11 @@ export class FrameService {
 
   createFrame ( artwork: Artwork ) {
     const frame = new Group();
-    //Create frame
-    frame.name = `Focused Frame`;
+    frame.name = `${artwork.title} frame group`;
+
+    // Create the frame geometry & canvas geometry
+    this.frameGeometry.rotateX( Math.PI / 2 );
+    const canvasGeometry = new BoxGeometry( artwork?.width / 100 * 1.12, artwork?.height / 100 * 1.12, 0.15 );
 
     const canvas = this.createCanvas( { artwork: artwork } );
     const box = this.primitivesService.createBox( { x: 4, y: 4, z: 0.5 } );

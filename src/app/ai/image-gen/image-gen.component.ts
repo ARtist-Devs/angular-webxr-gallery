@@ -26,18 +26,18 @@ export class ImageGenComponent {
     this.question = this.question == '' ? 'Describe the image and tell me what makes this artwork beautiful' : this.question;
 
     // Call the service to generate image and emit the new image info
-    // this.generative.generateImage( { prompt: this.prompt, question: this.question } ).subscribe( ( response ) => {
-    //   console.log( response );
-    //   const image = {
-    //     // @ts-expect-error
-    //     url: `data:image/png;base64,${response.image}`,
-    //     // @ts-expect-error
-    //     description: response.caption
-    //   };
+    this.generative.generateImage( { prompt: this.prompt, question: this.question } ).subscribe( ( response ) => {
+      console.log( response );
+      const image = {
+        // @ts-expect-error
+        url: `data:image/png;base64,${response.image}`,
+        // @ts-expect-error
+        description: response.caption
+      };
 
-    //   this.newArtworkEvent.emit( image );
+      this.newArtworkEvent.emit( image );
 
-    // } );
+    } );
 
   }
 
