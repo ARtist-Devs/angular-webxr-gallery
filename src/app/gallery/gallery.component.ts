@@ -8,6 +8,7 @@ import { SceneComponent } from '../three/scene/scene.component';
 import { TestComponent } from '../three/test/test.component';
 import { Artwork, ArtworksService } from '../artworks.service';
 import { FrameService } from '../three/frame.service';
+import { UIService } from '../three/ui.service';
 
 @Component( {
   selector: 'art-gallery',
@@ -21,7 +22,7 @@ export class GalleryComponent extends SceneComponent {
   // Services
   private frameService = inject( FrameService );
   private artworksService = inject( ArtworksService );
-
+  private ui = inject( UIService );
   public artworks = this.artworksService.getArtworks( 5 );
   // TODO: clean up
   private focusedFrame: any;
@@ -49,6 +50,7 @@ export class GalleryComponent extends SceneComponent {
   createFrames () {
     //
     const frames = this.frameService.createFrames( this.artworks() );
+    this.addToRender( this.ui.update );
     this.scene.add( frames );
 
   }

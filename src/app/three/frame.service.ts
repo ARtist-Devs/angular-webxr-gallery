@@ -34,15 +34,15 @@ export class FrameService {
       position: { x: -0.75, y: 0, z: -0.0 },
       rotation: {},
     },
-    // {
-    //   name: "Upvote Button",
-    //   text: "Upvote",
-    //   onClick: ( ind: number ) => {
-    //     this.upvoteSelection( ind );
-    //   },
-    //   position: { x: -0.8, y: 0.8, z: -0.1 },
-    //   rotation: {},
-    // },
+    {
+      name: "Upvote Button",
+      text: "Upvote",
+      onClick: ( ind: number ) => {
+        this.upvoteSelection( ind );
+      },
+      position: { x: -0.8, y: 0.8, z: -0.1 },
+      rotation: {},
+    },
     {
       name: "Previous Button",
       text: "Previous",
@@ -202,6 +202,7 @@ export class FrameService {
     const length = this.frames.children.length;
     this.resetPosition( this.focused );
     let i;
+    console.log( 'Before rotation Focused Frame ', this.focused );
     if ( position === 1 ) {
       // Rotate to Next frame
       i = index < length - 1 ? index + 1 : 0;
@@ -211,8 +212,11 @@ export class FrameService {
       i = index === 0 ? length - 1 : index - 1;
       this.rotateFrames( -72 );
     }
+
     this.focused = i;
     this.focusFrame( i );
+    console.log( 'Focused Frame ', this.focused );
+
   }
 
   moveFrame ( f: any, p: any ) {
