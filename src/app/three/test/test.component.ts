@@ -10,7 +10,6 @@ import { Artwork, ArtworksService } from '../../artworks.service';
 import { LayoutButtonsComponent } from '../../layout-buttons/layout-buttons.component';
 import { FrameService } from '../frame.service';
 import { LayoutService } from '../layout.service';
-import { PrimitivesService } from '../primitives.service';
 import { RenderTargetService } from '../render-target.service';
 import { SceneComponent } from '../scene/scene.component';
 
@@ -22,16 +21,16 @@ import { SceneComponent } from '../scene/scene.component';
   styleUrl: './test.component.scss'
 } )
 export class TestComponent extends SceneComponent {
-  private primitives: PrimitivesService = inject( PrimitivesService );
-  private renderTargetService: RenderTargetService = inject( RenderTargetService );
+  // Services
+  private artworksService = inject( ArtworksService );
+  private frameService = inject( FrameService );
   private layout: LayoutService = inject( LayoutService );
+  private renderTargetService: RenderTargetService = inject( RenderTargetService );
+  public fa: InputSignal<Artwork> = input.required();
 
   man: any;
   frames: Object3D[] = [];
-  private frameService = inject( FrameService );
-  private artworksService = inject( ArtworksService );
   private artworks = this.artworksService.artworks();
-  fa: InputSignal<Artwork> = input.required();
   focusArtwork = this.artworksService.getFocusedArtwork();
   private focusedFrame: any;
 

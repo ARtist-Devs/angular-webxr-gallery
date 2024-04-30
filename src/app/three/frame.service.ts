@@ -29,6 +29,10 @@ export class FrameService {
 
   }
 
+  createFrames ( artworks: Artwork[] ) {
+
+  }
+
   createFrame ( artwork: Artwork ) {
     const frame = new Group();
     frame.name = `Focused Frame`;
