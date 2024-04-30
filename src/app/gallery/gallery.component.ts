@@ -1,14 +1,11 @@
-import { Component, NgZone } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { Object3D } from 'three';
 
-import { LoadingComponent } from '../loading/loading.component';
-import { LoadersService } from '../three/loaders.service';
-import { PrimitivesService } from '../three/primitives.service';
-import { SceneComponent } from '../three/scene/scene.component';
-import { XRService } from '../three/xr.service';
-import { TestComponent } from '../three/test/test.component';
 import { ImageGenComponent } from '../ai/image-gen/image-gen.component';
+import { LoadingComponent } from '../loading/loading.component';
+import { SceneComponent } from '../three/scene/scene.component';
+import { TestComponent } from '../three/test/test.component';
 
 @Component( {
   selector: 'art-gallery',
@@ -20,7 +17,7 @@ import { ImageGenComponent } from '../ai/image-gen/image-gen.component';
 
 export class GalleryComponent extends SceneComponent {
   // TODO: @Input() artworks = [];
-  constructor( ngZone: NgZone, loadersService: LoadersService, private primitives: PrimitivesService, xrService: XRService ) {
+  constructor() {
     super();
   }
 

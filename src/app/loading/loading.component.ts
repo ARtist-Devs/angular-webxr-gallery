@@ -1,15 +1,11 @@
 import {
   ChangeDetectionStrategy,
-  Component,
-  Input,
-  NgZone,
+  Component
 } from '@angular/core';
 
 import { Object3D } from 'three';
 
-import { LoadersService } from '../three/loaders.service';
 import { SceneComponent } from '../three/scene/scene.component';
-import { XRService } from '../three/xr.service';
 
 @Component( {
   selector: 'art-loading',

@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, InputSignal, NgZone } from '@angular/core';
+import { Component, effect, inject, input, InputSignal } from '@angular/core';
 
 import { BoxGeometry, DirectionalLight, Group, Mesh, MeshStandardMaterial, Object3D, RectAreaLight } from 'three';
 import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js';
@@ -10,11 +10,9 @@ import { Artwork, ArtworksService } from '../../artworks.service';
 import { LayoutButtonsComponent } from '../../layout-buttons/layout-buttons.component';
 import { FrameService } from '../frame.service';
 import { LayoutService } from '../layout.service';
-import { LoadersService } from '../loaders.service';
 import { PrimitivesService } from '../primitives.service';
 import { RenderTargetService } from '../render-target.service';
 import { SceneComponent } from '../scene/scene.component';
-import { XRService } from '../xr.service';
 
 @Component( {
   selector: 'art-test',
