@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 
-import { BoxGeometry, CylinderGeometry, Group, MeshPhongMaterial, SRGBColorSpace, UVMapping } from 'three';
+import { BoxGeometry, CylinderGeometry, Group, Mesh, MeshPhongMaterial, SRGBColorSpace, UVMapping, Vector3 } from 'three';
+import { animate, easeIn, easeInOut } from 'popmotion';
 
 import { Artwork } from '../artworks.service';
 import { LoadersService } from './loaders.service';
@@ -17,24 +18,10 @@ export class FrameService {
   canvasMaterial: MeshPhongMaterial = new MeshPhongMaterial();
   frameDistance = 7;
   frames: Group[] = [];
-  frameGeometry: any = new CylinderGeometry( 0.8, 0.7, 0.1, 64, 5 );
+  frameGeometry: any = new CylinderGeometry( 1, 0.85, 0.1, 64, 5 );
+  phongMaterial = new MeshPhongMaterial();
 
-
-  createCanvas ( options: any ) {
-    const ops = Object.assign( {}, { x: 2, y: 2, z: 0.6 }, options, );
-    const texture = this.loadersService.loadTexture( ops.artwork.url );
-    texture.colorSpace = SRGBColorSpace;
-    texture.mapping = UVMapping;
-    const canvasMaterial = this.canvasMaterial.clone();
-    canvasMaterial.map = texture;
-
-    const canvas = this.primitivesService.createBox( { x: ops.x, y: ops.y, z: ops.z, material: canvasMaterial } );
-    canvas.name = `Focused Canvas`;
-
-    return canvas;
-
-  }
-
+  // TODO: move materials and Meshes to their services
   createFrames ( artworks: Artwork[] ) {
     const frames = new Group();
     frames.name = 'Frames Group';
@@ -59,13 +46,44 @@ export class FrameService {
 
     // Create the frame geometry & canvas geometry
     this.frameGeometry.rotateX( Math.PI / 2 );
-    const canvasGeometry = new BoxGeometry( artwork?.width / 100 * 1.12, artwork?.height / 100 * 1.12, 0.15 );
+    const canvasGeometry = new BoxGeometry( 1, 1, 0.12 );
 
-    const canvas = this.createCanvas( { artwork: artwork } );
-    const box = this.primitivesService.createBox( { x: 4, y: 4, z: 0.5 } );
-    frame.add( box, canvas );
+    // Create the canvas material with the texture
+    const texture = this.loadersService.loadTexture( artwork.url );
+    texture.colorSpace = SRGBColorSpace;
+    texture.mapping = UVMapping;
+    const canvasMaterial = this.phongMaterial.clone();
+    canvasMaterial.map = texture;
+
+    // Create the frame & canvas mesh
+    const frameMaterial = this.phongMaterial.clone();
+    frameMaterial.color.set( artwork.colors[0] );
+    frameMaterial.needsUpdate = true;
+    const frameMesh = new Mesh( this.frameGeometry, frameMaterial );
+
+    const canvasMesh = new Mesh( canvasGeometry, canvasMaterial );
+    frameMesh.name = `${artwork.title} frame mesh` || 'frame';
+    canvasMesh.name = `${artwork.title} canvas mesh` || 'frame canvas';
+
+    frame.add( frameMesh, canvasMesh );
+    frame.rotateY( Math.PI );
 
     return frame;
+
+  }
+
+  createCanvas ( options: any ) {
+    const ops = Object.assign( {}, { x: 2, y: 2, z: 0.6 }, options, );
+    const texture = this.loadersService.loadTexture( ops.artwork.url );
+    texture.colorSpace = SRGBColorSpace;
+    texture.mapping = UVMapping;
+    const canvasMaterial = this.canvasMaterial.clone();
+    canvasMaterial.map = texture;
+
+    const canvas = this.primitivesService.createBox( { x: ops.x, y: ops.y, z: ops.z, material: canvasMaterial } );
+    canvas.name = `Focused Canvas`;
+
+    return canvas;
 
   }
 
@@ -102,7 +120,25 @@ export class FrameService {
 
   }
 
-  // For Test Component
+  moveFrame ( f: any, p: any ) {
+
+    const to = new Vector3( p.x, p.y, p.z );
+    animate( {
+      from: f.position,
+      to: to,
+      duration: 2500,
+      ease: easeInOut,
+      onUpdate: latest => {
+        f.position.x = latest.x;
+        f.position.y = latest.y;
+        f.position.z = latest.z;
+      }
+    } );
+
+  }
+
+
+  //===== For Test Component
   createFocusFrame ( artwork: Artwork ) {
     const frame = new Group();
     frame.name = `Focused Frame`;
