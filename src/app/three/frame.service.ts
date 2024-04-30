@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 
-import { BoxGeometry, CylinderGeometry, Group, Mesh, MeshPhongMaterial, SRGBColorSpace, UVMapping, Vector3 } from 'three';
+import { BoxGeometry, CylinderGeometry, Group, MathUtils, Mesh, MeshPhongMaterial, SRGBColorSpace, UVMapping, Vector3 } from 'three';
 import { animate, easeIn, easeInOut } from 'popmotion';
 
 import { Artwork } from '../artworks.service';
@@ -17,27 +17,30 @@ export class FrameService {
   angle = Math.PI * 6;
   canvasMaterial: MeshPhongMaterial = new MeshPhongMaterial();
   frameDistance = 7;
-  frames: Group[] = [];
+  frames = new Group();
   frameGeometry: any = new CylinderGeometry( 1, 0.85, 0.1, 64, 5 );
   phongMaterial = new MeshPhongMaterial();
+  focusFactor = 4;
 
   // TODO: move materials and Meshes to their services
   createFrames ( artworks: Artwork[] ) {
-    const frames = new Group();
-    frames.name = 'Frames Group';
+    this.frames.name = 'Frames Group';
 
     // Angle between frames
     this.angle = ( Math.PI * 2 ) / artworks.length;
-    this.frames = artworks.map( ( artwork, i ) => {
+
+    const frames = artworks.map( ( artwork, i ) => {
       const f = this.placeFrame( this.createFrame( artwork ), i );
       f.name = `Frame ${i}`;
       return f;
     } );
 
-    frames.add( ...this.frames );
+    this.frames.add( ...frames );
 
-    frames.position.set( 0, 1.6, 0 );
-    return frames;
+    this.frames.position.set( 0, 1.6, 0 );
+    this.focusFrame( 0 );
+
+    return this.frames;
   }
 
   createFrame ( artwork: Artwork ) {
@@ -133,6 +136,38 @@ export class FrameService {
         f.position.y = latest.y;
         f.position.z = latest.z;
       }
+    } );
+
+  }
+
+  focusFrame ( i: number ) {
+
+    const f = this.frames.children[i];
+    const x = f.position.x / this.frameDistance * this.focusFactor;
+    const z = f.position.z / this.frameDistance * this.focusFactor;
+    const p = new Vector3( x, f.position.y, z );
+    this.moveFrame( f, p );
+
+  }
+
+  resetPosition ( i: number ) {
+
+    const f = this.frames.children[i];
+    const p = f.userData['originalPosition'];
+    this.moveFrame( f, p );
+
+  }
+
+  rotateFrames ( angle: number = 72 ) {
+
+    // angle between frames and the current group rotation
+    const y = MathUtils.degToRad( angle ) + this.frames.rotation.y;
+    animate( {
+      from: this.frames.rotation.y,
+      to: y,
+      duration: 1000,
+      ease: easeInOut,
+      onUpdate: latest => this.frames.rotation.y = latest
     } );
 
   }
