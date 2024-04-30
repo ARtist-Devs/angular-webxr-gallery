@@ -556,7 +556,8 @@ export class ArtworksService {
     return this.focusedArtwork();
   }
 
-  getArtworks () {
+  getArtworks ( number?: number ) {
+    if ( number ) { this.artworks.set( this.artworksArray.splice( 0, number ) ); }
     return this.artworks;
   }
 

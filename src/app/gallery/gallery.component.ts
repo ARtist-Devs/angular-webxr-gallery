@@ -22,7 +22,7 @@ export class GalleryComponent extends SceneComponent {
   private frameService = inject( FrameService );
   private artworksService = inject( ArtworksService );
 
-  public artworks = this.artworksService.getArtworks();
+  public artworks = this.artworksService.getArtworks( 5 );
   // TODO: clean up
   private focusedFrame: any;
   focusArtwork = this.artworksService.getFocusedArtwork();
@@ -47,7 +47,7 @@ export class GalleryComponent extends SceneComponent {
   };
 
   createFrames () {
-
+    //
     const frames = this.frameService.createFrames( this.artworks() );
     this.scene.add( frames );
 
