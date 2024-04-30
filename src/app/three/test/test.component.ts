@@ -24,6 +24,10 @@ import { XRService } from '../xr.service';
   styleUrl: './test.component.scss'
 } )
 export class TestComponent extends SceneComponent {
+  private primitives: PrimitivesService = inject( PrimitivesService );
+  private renderTargetService: RenderTargetService = inject( RenderTargetService );
+  private layout: LayoutService = inject( LayoutService );
+
   man: any;
   frames: Object3D[] = [];
   private frameService = inject( FrameService );
@@ -33,15 +37,7 @@ export class TestComponent extends SceneComponent {
   focusArtwork = this.artworksService.getFocusedArtwork();
   private focusedFrame: any;
 
-  constructor(
-    ngZone: NgZone,
-    loadersService: LoadersService,
-    private primitives: PrimitivesService,
-    xrService: XRService,
-    private renderTargetService: RenderTargetService,
-    private layout: LayoutService
-
-  ) {
+  constructor() {
     super();
     effect( () => {
       console.log( `The current focused is: ${this.fa().url}` );
@@ -50,7 +46,6 @@ export class TestComponent extends SceneComponent {
   }
 
   ngOnInit () {
-
 
     // Layout test
     this.createBoxes();

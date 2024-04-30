@@ -42,7 +42,8 @@ export interface SceneOptions {
   styleUrl: './scene.component.scss',
 } )
 export class SceneComponent {
-  private zone: NgZone = inject( NgZone );
+  // Services to inject
+  private ngZone: NgZone = inject( NgZone );
   protected loadersService = inject( LoadersService );
   protected xrService = inject( XRService );
 
@@ -56,7 +57,7 @@ export class SceneComponent {
     width: window.innerWidth || 800,
     height: window.innerHeight || 400,
   };
-  // @ts-ignore
+
   public renderer: WebGLRenderer;
   private renderFunctions: Function[] = [];
 
@@ -154,6 +155,7 @@ export class SceneComponent {
   addControls () {
     this.controls = new OrbitControls( this.camera, this.renderer.domElement );
     this.controls.listenToKeyEvents( window ); // optional
+
     // Set the controls target to the camera/user position
     this.controls.target.set( 0, 1.6, -5 );
     this.controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
@@ -203,16 +205,9 @@ export class SceneComponent {
 
   debug () {
 
-    // Add a cube to the scene for testing purposes
-    // const boxGeo = new BoxGeometry( 10, 10, 10 );
-    // const material = new MeshBasicMaterial( { color: 0x00ff00 } );
-    // const cube = new Mesh( boxGeo, material );
-    // cube.position.y = 10;
-    // this.scene.add( cube );
-    // this.addToRender( () => cube.rotation.y += 0.01 );
-
     const helper = new GridHelper( 100, 40, 0x000000, 0x000000 );
     this.scene.add( helper );
+
     // GUI
     this.gui = new GUI();
     const w = window.innerWidth;
@@ -221,11 +216,11 @@ export class SceneComponent {
     camera.add( this.camera.position, 'y', 0, 2, 0.1 );
     camera.add( this.camera.position, 'z', 0, 10, 1 );
 
-    // Stats
-
+    // Stats panel
     const stats = new Stats();
     document.body.appendChild( stats.dom );
 
+    // Perf panel
     const gpuPanel = new GPUStatsPanel( this.renderer.getContext() );
     stats.addPanel( gpuPanel );
     stats.showPanel( 0 );

@@ -20,8 +20,8 @@ import { XRService } from '../three/xr.service';
   styleUrl: './loading.component.scss',
 } )
 export class LoadingComponent extends SceneComponent {
-  constructor( ngZone: NgZone, loadersService: LoadersService, xrService: XRService ) {
-    super( ngZone, loadersService, xrService );
+  constructor() {
+    super();
   }
 
   override ngAfterViewInit (): void {
@@ -33,8 +33,7 @@ export class LoadingComponent extends SceneComponent {
       onLoadCB: this.onLoad.bind( this ),
     } );
 
-    // this.debug();
-  }
+  };
 
   // Place and animate the logo when loaded
   onLoad ( model: Object3D ) {
