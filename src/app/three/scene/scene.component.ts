@@ -26,6 +26,7 @@ import { XRButton } from 'three/examples/jsm/webxr/XRButton.js';
 
 import { LoadersService } from '../loaders.service';
 import { XRService } from '../xr.service';
+import { InteractionsService } from '../interactions.service';
 
 
 export interface SceneOptions {
@@ -46,6 +47,7 @@ export class SceneComponent {
   private ngZone: NgZone = inject( NgZone );
   protected loadersService = inject( LoadersService );
   protected xrService = inject( XRService );
+  protected interactions = inject( InteractionsService );
 
   public camera: PerspectiveCamera;
   public clock = new Clock();
@@ -102,6 +104,9 @@ export class SceneComponent {
     // Controls
     this.addControls();
 
+    // Interactions Manager
+    this.interactions.initInteractionManager( this.renderer, this.camera, canvasEl );
+
     // Animation Loop
     this.ngZone.runOutsideAngular( () =>
       this.renderer.setAnimationLoop( () => this.render() )
@@ -118,6 +123,8 @@ export class SceneComponent {
       console.log( 'clicked xrButton ', e );
     } );
     document.body.appendChild( xrButton );
+
+
 
     // Check XR Support and determine if the session is AR or VR
     // Initiate a session if supported

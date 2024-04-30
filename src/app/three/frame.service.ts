@@ -6,6 +6,7 @@ import { animate, easeIn, easeInOut } from 'popmotion';
 import { Artwork } from '../artworks.service';
 import { LoadersService } from './loaders.service';
 import { PrimitivesService } from './primitives.service';
+import { UIService } from './ui.service';
 
 @Injectable( {
   providedIn: 'root'
@@ -13,6 +14,7 @@ import { PrimitivesService } from './primitives.service';
 export class FrameService {
   private primitivesService = inject( PrimitivesService );
   private loadersService = inject( LoadersService );
+  private UIService = inject( UIService );
 
   angle = Math.PI * 6;
   canvasMaterial: MeshPhongMaterial = new MeshPhongMaterial();
@@ -21,8 +23,43 @@ export class FrameService {
   frameGeometry: any = new CylinderGeometry( 1, 0.85, 0.1, 64, 5 );
   phongMaterial = new MeshPhongMaterial();
   focusFactor = 4;
+  focused: number = 0;
+  buttons = [
+    {
+      name: "Next Button",
+      text: "Next",
+      onClick: ( ind: number ) => {
+        this.changeSelection( ind, 1 );
+      },
+      position: { x: -0.75, y: 0, z: -0.0 },
+      rotation: {},
+    },
+    // {
+    //   name: "Upvote Button",
+    //   text: "Upvote",
+    //   onClick: ( ind: number ) => {
+    //     this.upvoteSelection( ind );
+    //   },
+    //   position: { x: -0.8, y: 0.8, z: -0.1 },
+    //   rotation: {},
+    // },
+    {
+      name: "Previous Button",
+      text: "Previous",
+      onClick: ( ind: number ) => {
+        this.changeSelection( ind, -1 );
+      },
+      position: { x: 0.75, y: 0, z: -0 },
+      rotation: {},
+    },
+  ];
 
   // TODO: move materials and Meshes to their services
+  /**
+   * 
+   * @param artworks 
+   * @returns 
+   */
   createFrames ( artworks: Artwork[] ) {
     this.frames.name = 'Frames Group';
 
@@ -43,6 +80,11 @@ export class FrameService {
     return this.frames;
   }
 
+  /**
+   * Creates single frame with Canvas and UI
+   * @param artwork 
+   * @returns 
+   */
   createFrame ( artwork: Artwork ) {
     const frame = new Group();
     frame.name = `${artwork.title} frame group`;
@@ -71,10 +113,19 @@ export class FrameService {
     frame.add( frameMesh, canvasMesh );
     frame.rotateY( Math.PI );
 
+    const buttons = this.createUI( artwork );
+    frame.add( buttons );
+
+
     return frame;
 
   }
 
+  /**
+   * Creates the canvas element that displays the images
+   * @param options 
+   * @returns 
+   */
   createCanvas ( options: any ) {
     const ops = Object.assign( {}, { x: 2, y: 2, z: 0.6 }, options, );
     const texture = this.loadersService.loadTexture( ops.artwork.url );
@@ -90,17 +141,16 @@ export class FrameService {
 
   }
 
+  createUI ( artwork: Artwork ) {
+    const buttonsPanel = this.UIService.createInteractiveButtons( { buttons: this.buttons, id: artwork.id } );
+    buttonsPanel.position.x = 0;
+    buttonsPanel.position.y = -0.7;
+    buttonsPanel.position.z = -0.2;
 
-  updateFrame ( ops: any ) {
+    buttonsPanel.rotateY( Math.PI );
+    buttonsPanel.rotateX( -0.55 );
 
-    const material = ops.frame.children[1].getObjectByName( `Focused Canvas` ).material;
-    const texture = this.loadersService.loadTexture( ops.texture );
-    texture.colorSpace = SRGBColorSpace;
-    texture.mapping = UVMapping;
-    material.map = texture;
-    material.map.userData = { url: ops.texture };
-    material.needsUpdate = true;
-
+    return buttonsPanel;
   }
 
   /**
@@ -121,6 +171,48 @@ export class FrameService {
 
     return frame;
 
+  }
+
+  // TODO:
+  updateFrames ( ops: any ) {
+    this.frames.children.forEach( ( frame, i ) => {
+      const texture = this.loadersService.loadTexture( ops.textures[i] );
+
+    } );
+  }
+
+  updateFrame ( ops: any ) {
+
+    const material = ops.frame.children[1].getObjectByName( `Focused Canvas` ).material;
+    const texture = this.loadersService.loadTexture( ops.texture );
+    texture.colorSpace = SRGBColorSpace;
+    texture.mapping = UVMapping;
+    material.map = texture;
+    material.map.userData['url'] = ops.texture;
+    material.needsUpdate = true;
+
+  }
+
+  // TODO: maybe move to the gallery 
+  upvoteSelection ( index: number ) {
+
+  }
+
+  changeSelection ( index: number, position: number ) {
+    const length = this.frames.children.length;
+    this.resetPosition( this.focused );
+    let i;
+    if ( position === 1 ) {
+      // Rotate to Next frame
+      i = index < length - 1 ? index + 1 : 0;
+      this.rotateFrames( 72 );
+    } else if ( position === -1 ) {
+      // Rotate to Previous
+      i = index === 0 ? length - 1 : index - 1;
+      this.rotateFrames( -72 );
+    }
+    this.focused = i;
+    this.focusFrame( i );
   }
 
   moveFrame ( f: any, p: any ) {
