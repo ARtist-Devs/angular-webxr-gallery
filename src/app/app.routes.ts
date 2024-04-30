@@ -33,7 +33,7 @@ export const routes: Routes = [
     },
     {
         path: '',
-        redirectTo: '/gallery',
+        redirectTo: '/museum',
         pathMatch: 'full'
     }
 ];
