@@ -65,7 +65,7 @@ export class TestComponent extends SceneComponent {
 
   focusFrame () {
     this.focusArtwork = this.artworksService.getFocusedArtwork();
-    const focusedFrame = this.frameService.createFrame( this.focusArtwork );
+    const focusedFrame = this.frameService.createFocusFrame( this.focusArtwork );
     focusedFrame.position.z = -10;
     this.scene.add( focusedFrame );
 

@@ -47,11 +47,9 @@ export class GalleryComponent extends SceneComponent {
   };
 
   createFrames () {
+
     const frames = this.frameService.createFrames( this.artworks() );
-    this.focusArtwork = this.artworksService.getFocusedArtwork();
-    const focusedFrame = this.frameService.createFrame( this.focusArtwork );
-    focusedFrame.position.z = -10;
-    this.scene.add( focusedFrame );
+    this.scene.add( frames );
 
   }
 
