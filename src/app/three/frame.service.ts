@@ -7,14 +7,17 @@ import { Artwork } from '../artworks.service';
 import { LoadersService } from './loaders.service';
 import { PrimitivesService } from './primitives.service';
 import { UIService } from './ui.service';
+import { LightsService } from './lights.service';
 
 @Injectable( {
   providedIn: 'root'
 } )
 export class FrameService {
-  private primitivesService = inject( PrimitivesService );
+
+  protected lightsService = inject( LightsService );
   private loadersService = inject( LoadersService );
   private UIService = inject( UIService );
+  private primitivesService = inject( PrimitivesService );
 
   angle = Math.PI * 6;
   canvasMaterial: MeshPhongMaterial = new MeshPhongMaterial();
@@ -110,7 +113,11 @@ export class FrameService {
     frameMesh.name = `${artwork.title} frame mesh` || 'frame';
     canvasMesh.name = `${artwork.title} canvas mesh` || 'frame canvas';
 
-    frame.add( frameMesh, canvasMesh );
+    const light = this.lightsService.createSpotLight();
+    light.target = canvasMesh;
+    light.position.y = 2;
+
+    frame.add( frameMesh, canvasMesh, light );
     frame.rotateY( Math.PI );
 
     const buttons = this.createUI( artwork );

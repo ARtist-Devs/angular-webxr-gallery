@@ -16,6 +16,7 @@ import {
   Color, Fog, GridHelper, HemisphereLight, Object3D,
   PCFSoftShadowMap,
   PerspectiveCamera, Scene,
+  Vector2,
   WebGLRenderer
 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -68,8 +69,8 @@ export class SceneComponent {
   sceneOptions: InputSignal<SceneOptions> = input();
   canvas: Signal<ElementRef<HTMLCanvasElement>> = viewChild( 'canvas' );
   rect: DOMRect;
-  private spotLights: any[];
-  spotlight: any;
+  private pointer = new Vector2();
+
 
   ngAfterViewInit (): void {
     const canvasEl = this.canvas().nativeElement;
@@ -111,7 +112,8 @@ export class SceneComponent {
     this.addControls();
 
     // Interactions Manager
-    this.interactions.initInteractionManager( this.renderer, this.camera, canvasEl );
+    const interactionsUpdate = this.interactions.initInteractionManager( this.renderer, this.camera, canvasEl );
+    this.renderFunctions.push( interactionsUpdate );
 
     // Animation Loop
     this.ngZone.runOutsideAngular( () =>
@@ -202,29 +204,23 @@ export class SceneComponent {
     this.renderer.setPixelRatio( window.devicePixelRatio );
   }
 
-  // Ambient Light
+
   addLights () {
 
-    // Lights
-    const hemLight = this.lightsService.createHemLight( { intensity: 0.5 } );
-    // this.scene.add( hemLight );
-
-    const spotLight = this.lightsService.createSpotLight();
-    spotLight.position.set( 0, 7, 1.16 );
-    spotLight.target.position.set( 0, 0, -4 );
-    // this.scene.add( spotLight );
-
+    // Camera Lights
     const cameraLight: any = this.lightsService.createSpotLight();
     cameraLight.position.set( 0, -2, 0.64 );
     this.camera.add( cameraLight );
 
+    // Ambient Light
     const ambient = new HemisphereLight( 0xffffff, 0xbbbbff, 0.5 );
-    // this.scene.add( ambient );
+    this.scene.add( ambient );
+
   }
 
   fog ( ops?: any ) {
 
-    // Heavy fog
+    // Heavy fog for test
     const setcolor = 0xF02050;
     this.scene.background = new Color( setcolor );
     this.scene.fog = new Fog( setcolor, 12, 20 );
@@ -252,6 +248,23 @@ export class SceneComponent {
     stats.addPanel( gpuPanel );
     stats.showPanel( 0 );
     this.addToRender( () => stats.update() );
+
+  }
+
+  // TODO:
+  onTouchStart ( e: TouchEvent ) {
+
+    this.pointer.x = ( ( e.touches[0].clientX - this.rect.left ) / ( this.rect.right - this.rect.left ) ) * 2 - 1;
+    this.pointer.y = - ( ( e.touches[0].clientY - this.rect.top ) / ( this.rect.bottom - this.rect.top ) ) * 2 + 1;
+    this.interactions.intersectObjects( { pointer: this.pointer, camera: this.camera, scene: this.scene, select: true } );
+
+  }
+
+  onPointerDown ( e: PointerEvent ) {
+
+    this.pointer.x = ( ( e.clientX - this.rect.left ) / ( this.rect.right - this.rect.left ) ) * 2 - 1;
+    this.pointer.y = - ( ( e.clientY - this.rect.top ) / ( this.rect.bottom - this.rect.top ) ) * 2 + 1;
+    this.interactions.intersectObjects( { pointer: this.pointer, camera: this.camera, scene: this.scene } );
 
   }
 }
