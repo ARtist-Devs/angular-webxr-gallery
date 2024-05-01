@@ -27,6 +27,7 @@ import { XRButton } from 'three/examples/jsm/webxr/XRButton.js';
 import { LoadersService } from '../loaders.service';
 import { XRService } from '../xr.service';
 import { InteractionsService } from '../interactions.service';
+import { LightsService } from '../lights.service';
 
 
 export interface SceneOptions {
@@ -44,10 +45,11 @@ export interface SceneOptions {
 } )
 export class SceneComponent {
   // Services to inject
-  private ngZone: NgZone = inject( NgZone );
-  protected loadersService = inject( LoadersService );
-  protected xrService = inject( XRService );
   protected interactions = inject( InteractionsService );
+  protected lightsService = inject( LightsService );
+  protected loadersService = inject( LoadersService );
+  private ngZone: NgZone = inject( NgZone );
+  protected xrService = inject( XRService );
 
   public camera: PerspectiveCamera;
   public clock = new Clock();
@@ -66,6 +68,8 @@ export class SceneComponent {
   sceneOptions: InputSignal<SceneOptions> = input();
   canvas: Signal<ElementRef<HTMLCanvasElement>> = viewChild( 'canvas' );
   rect: DOMRect;
+  private spotLights: any[];
+  spotlight: any;
 
   ngAfterViewInit (): void {
     const canvasEl = this.canvas().nativeElement;
@@ -101,7 +105,7 @@ export class SceneComponent {
 
     this.rect = this.renderer.domElement.getBoundingClientRect();
     // Lights
-    // this.addLights();
+    this.addLights();
 
     // Controls
     this.addControls();
@@ -202,22 +206,20 @@ export class SceneComponent {
   addLights () {
 
     // Lights
-    // const hemLight = this.lightsService.createHemLight( { intensity: 0.5 } );
+    const hemLight = this.lightsService.createHemLight( { intensity: 0.5 } );
+    // this.scene.add( hemLight );
 
-    // this.spotLights = this.lightsService.createSpotLight();
-    // this.spotlight = this.spotLights[0];
-    // this.spotlight.position.set( 0, 7, 1.16 );
-    // this.spotlight.target.position.set( 0, 0, -4 );
-    // this.spotlight = this.spotLights[0];
+    const spotLight = this.lightsService.createSpotLight();
+    spotLight.position.set( 0, 7, 1.16 );
+    spotLight.target.position.set( 0, 0, -4 );
+    // this.scene.add( spotLight );
 
-    // const cameraLight: any = this.lightsService.createSpotLight();
-    // cameraLight[0].position.set( 0, -2, 0.64 );
-    // this.camera.add( cameraLight[0] );
+    const cameraLight: any = this.lightsService.createSpotLight();
+    cameraLight.position.set( 0, -2, 0.64 );
+    this.camera.add( cameraLight );
 
-    // this.scene.add( ...hemLight );
-
-    const ambient = new HemisphereLight( 0xffffff, 0xbbbbff, 3 );
-    this.scene.add( ambient );
+    const ambient = new HemisphereLight( 0xffffff, 0xbbbbff, 0.5 );
+    // this.scene.add( ambient );
   }
 
   fog ( ops?: any ) {
