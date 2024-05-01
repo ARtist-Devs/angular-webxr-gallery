@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 
 import { BoxGeometry, CylinderGeometry, Group, MathUtils, Mesh, MeshPhongMaterial, SRGBColorSpace, UVMapping, Vector3 } from 'three';
 import { animate, easeIn, easeInOut } from 'popmotion';
@@ -23,7 +23,7 @@ export class FrameService {
   frameGeometry: any = new CylinderGeometry( 1, 0.85, 0.1, 64, 5 );
   phongMaterial = new MeshPhongMaterial();
   focusFactor = 4;
-  focused: number = 0;
+  focusedFrame: WritableSignal<number> = signal( 0 );
   buttons = [
     {
       name: "Next Button",
@@ -199,10 +199,10 @@ export class FrameService {
   }
 
   changeSelection ( index: number, position: number ) {
+
     const length = this.frames.children.length;
-    this.resetPosition( this.focused );
+    this.resetPosition( this.focusedFrame() );
     let i;
-    console.log( 'Before rotation Focused Frame ', this.focused );
     if ( position === 1 ) {
       // Rotate to Next frame
       i = index < length - 1 ? index + 1 : 0;
@@ -213,9 +213,8 @@ export class FrameService {
       this.rotateFrames( -72 );
     }
 
-    this.focused = i;
+    this.focusedFrame.set( i );
     this.focusFrame( i );
-    console.log( 'Focused Frame ', this.focused );
 
   }
 
