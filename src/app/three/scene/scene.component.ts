@@ -77,7 +77,6 @@ export class SceneComponent {
     this.scene.background = new Color( 'black' );
     this.scene.backgroundBlurriness = 0.3;
 
-
     // Camera
     this.camera = new PerspectiveCamera( 45, w / h, 0.1, 500 );
     this.camera.position.set( 0, 1.6, 0 );

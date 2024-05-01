@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 
-import { Material, Object3D, Object3DEventMap, Vector2 } from 'three';
+import { Material, Object3D, Object3DEventMap, PointLight, Vector2 } from 'three';
 
 import { ImageGenComponent } from '../ai/image-gen/image-gen.component';
 import { ArtworksService } from '../artworks.service';
@@ -122,6 +122,18 @@ export class GalleryComponent extends SceneComponent {
   }
 
   addLights () {
+
+    // Corner lights in each inner walls
+    const pointLight = new PointLight( 0xffffff, Math.PI, 13, 1 );
+    pointLight.position.y = 3.2;
+    pointLight.position.z = -10;
+
+    const pointLight1 = pointLight.clone();
+    pointLight1.position.set( 10, 3.2, 7.6 );
+
+    const pointLight2 = pointLight.clone();
+    pointLight2.position.set( -10, 3.2, 7.6 );
+    this.scene.add( pointLight, pointLight1, pointLight2 );
 
   }
 
