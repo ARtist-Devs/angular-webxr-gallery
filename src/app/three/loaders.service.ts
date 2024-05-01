@@ -11,7 +11,7 @@ export class LoadersService {
   public loadingProgress: WritableSignal<number> = signal( 0 );
   private loadingManager = new LoadingManager();
   private gltfLoader = new GLTFLoader( this.loadingManager );
-  private textureLoader: TextureLoader = new TextureLoader( this.loadingManager );
+  public textureLoader: TextureLoader = new TextureLoader( this.loadingManager );
   private dracoLoader = new DRACOLoader( this.loadingManager );
   private loadStartTime = Date.now();
 
