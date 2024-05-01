@@ -46,7 +46,7 @@ export class GalleryComponent extends SceneComponent {
     this.createEnv();
 
     // Lights
-    this.addLights();
+    // this.addLights();
 
     // TODO:Add Camera movement 
   };
@@ -60,7 +60,7 @@ export class GalleryComponent extends SceneComponent {
   }
 
   createEnv () {
-    this.addLights();
+    this.addCornerLights();
 
     // Add Models
     // Model for Floor
@@ -121,7 +121,7 @@ export class GalleryComponent extends SceneComponent {
     this.addToScene( model );
   }
 
-  addLights () {
+  addCornerLights () {
 
     // Corner lights in each inner walls
     const pointLight = new PointLight( 0xffffff, Math.PI, 13, 1 );

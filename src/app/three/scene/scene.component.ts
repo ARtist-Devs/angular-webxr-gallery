@@ -65,6 +65,7 @@ export class SceneComponent {
 
   sceneOptions: InputSignal<SceneOptions> = input();
   canvas: Signal<ElementRef<HTMLCanvasElement>> = viewChild( 'canvas' );
+  rect: DOMRect;
 
   ngAfterViewInit (): void {
     const canvasEl = this.canvas().nativeElement;
@@ -87,6 +88,7 @@ export class SceneComponent {
     this.renderer = new WebGLRenderer( {
       canvas: canvasEl,
       antialias: true,
+      powerPreference: "high-performance",
       alpha: true,
     } );
     this.renderer.setPixelRatio( window.devicePixelRatio );
@@ -97,8 +99,9 @@ export class SceneComponent {
     this.renderer.toneMappingExposure = 1.5;
     this.renderer.xr.enabled = true;
 
+    this.rect = this.renderer.domElement.getBoundingClientRect();
     // Lights
-    this.addLight();
+    // this.addLights();
 
     // Controls
     this.addControls();
@@ -196,7 +199,23 @@ export class SceneComponent {
   }
 
   // Ambient Light
-  addLight () {
+  addLights () {
+
+    // Lights
+    // const hemLight = this.lightsService.createHemLight( { intensity: 0.5 } );
+
+    // this.spotLights = this.lightsService.createSpotLight();
+    // this.spotlight = this.spotLights[0];
+    // this.spotlight.position.set( 0, 7, 1.16 );
+    // this.spotlight.target.position.set( 0, 0, -4 );
+    // this.spotlight = this.spotLights[0];
+
+    // const cameraLight: any = this.lightsService.createSpotLight();
+    // cameraLight[0].position.set( 0, -2, 0.64 );
+    // this.camera.add( cameraLight[0] );
+
+    // this.scene.add( ...hemLight );
+
     const ambient = new HemisphereLight( 0xffffff, 0xbbbbff, 3 );
     this.scene.add( ambient );
   }
