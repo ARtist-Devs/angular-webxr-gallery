@@ -28,4 +28,10 @@ export class MuseumComponent {
     // this.speechService.say( artwork.description );
   }
 
+  addArtworks ( artworks: Artwork[] ) {
+    this.focusArtwork.set( artworks[0] );
+    this.artworksService.updateArtworks( artworks );
+    // this.speechService.say( artwork.description );
+  }
+
 }
