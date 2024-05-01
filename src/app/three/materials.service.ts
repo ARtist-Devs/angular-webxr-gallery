@@ -11,7 +11,6 @@ export class MaterialsService {
 
   private loadersService = inject( LoadersService );
 
-
   randomColors: any = range( new Color( 0x000000 ), new Color( 0xFFFFFF ) );
   constructor() { }
 
