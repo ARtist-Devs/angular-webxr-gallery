@@ -114,7 +114,7 @@ export class FrameService {
 
     const canvasMesh = new Mesh( canvasGeometry, canvasMaterial );
     frameMesh.name = `${artwork.title} frame mesh` || 'frame';
-    canvasMesh.name = 'Canvas';//`${artwork.title} canvas mesh` || 'frame canvas';
+    canvasMesh.name = 'Canvas';
 
     const light = this.lightsService.createSpotLight();
     light.target = canvasMesh;
@@ -129,26 +129,6 @@ export class FrameService {
     frame.userData['description'] = artwork.description;
 
     return frame;
-
-  }
-
-  /**
-   * Creates the canvas element that displays the images
-   * @param options 
-   * @returns 
-   */
-  createCanvas ( options: any ) {
-    const ops = Object.assign( {}, { x: 2, y: 2, z: 0.6 }, options, );
-    const texture = this.loadersService.loadTexture( ops.artwork.url );
-    texture.colorSpace = SRGBColorSpace;
-    texture.mapping = UVMapping;
-    const canvasMaterial = this.canvasMaterial.clone();
-    canvasMaterial.map = texture;
-
-    const canvas = this.primitivesService.createBox( { x: ops.x, y: ops.y, z: ops.z, material: canvasMaterial } );
-    canvas.name = `Canvas Material`;
-
-    return canvas;
 
   }
 
@@ -283,6 +263,27 @@ export class FrameService {
 
 
   //===== For Test Component
+
+  /**
+ * Creates the canvas element that displays the images
+ * @param options 
+ * @returns 
+ */
+  createCanvas ( options: any ) {
+    const ops = Object.assign( {}, { x: 2, y: 2, z: 0.6 }, options, );
+    const texture = this.loadersService.loadTexture( ops.artwork.url );
+    texture.colorSpace = SRGBColorSpace;
+    texture.mapping = UVMapping;
+    const canvasMaterial = this.canvasMaterial.clone();
+    canvasMaterial.map = texture;
+
+    const canvas = this.primitivesService.createBox( { x: ops.x, y: ops.y, z: ops.z, material: canvasMaterial } );
+    canvas.name = `Canvas Material`;
+
+    return canvas;
+
+  }
+
   createFocusFrame ( artwork: Artwork ) {
     const frame = new Group();
     frame.name = `Focused Frame`;
