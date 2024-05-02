@@ -50,37 +50,29 @@ export class ImageGenComponent {
     this.question = this.question == '' ? 'Describe the image and tell me what makes this artwork beautiful' : this.question;
 
     // Call the service to generate image and emit the new image info
-    // this.generative.generateImages( { prompt: this.prompt, question: this.question } ).subscribe( ( response ) => {
-    //   console.log( response );
-    //   let images: Artwork[] = [];
-    //   let i = 0;
-    //   for ( const [key, value] of Object.entries( response ) ) {
-    //     console.log( `${key}: ${value}` );
-    //     const image = {
-    //       id: i,
-    //       url: `data:image/png;base64,${value.image}`,
-    //       description: `${value.caption}`
-    //     };
-    //     images.push( image );
-    //     i++;
-    //   }
-    const response: any[] = this.generative.generateImages( { prompt: this.prompt, question: this.question } );
-    let images: Artwork[] = [];
-    response.map( ( data, i ) => {
-      const image: Artwork = {
-        id: i,
-        url: `data:image/png;base64,${data.image}`,
-        description: `${data.caption}`,
-        title: data.title
-      };
-      images.push( image );
+    this.generative.generateImages( { prompt: this.prompt, question: this.question } ).subscribe( ( response ) => {
+      console.log( response );
+
+      // To test with fake five images
+      // const response: any[] = this.generative.generateImages( { prompt: this.prompt, question: this.question } );
+      let images: Artwork[] = [];
+      // @ts-expect-error
+      response.map( ( data, i ) => {
+        const image: Artwork = {
+          id: i,
+          url: `data:image/png;base64,${data.image}`,
+          description: `${data.caption}`,
+          title: data.title
+        };
+        images.push( image );
+
+      } );
+      this.newArtworksEvent.emit( images );
 
     } );
-    this.newArtworksEvent.emit( images );
-
   }
 
-  // TODO
+  // TODO:
   speechInput () { }
 
 };
