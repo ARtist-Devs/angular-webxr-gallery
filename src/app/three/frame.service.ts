@@ -114,7 +114,7 @@ export class FrameService {
 
     const canvasMesh = new Mesh( canvasGeometry, canvasMaterial );
     frameMesh.name = `${artwork.title} frame mesh` || 'frame';
-    canvasMesh.name = `${artwork.title} canvas mesh` || 'frame canvas';
+    canvasMesh.name = 'Canvas';//`${artwork.title} canvas mesh` || 'frame canvas';
 
     const light = this.lightsService.createSpotLight();
     light.target = canvasMesh;
@@ -193,8 +193,9 @@ export class FrameService {
   }
 
   updateFrame ( ops: any ) {
+    console.log( 'Updating frame canvas ', ops.frame );
 
-    const material = ops.frame.children[1].getObjectByName( `Canvas Material` ).material;
+    const material = ops.frame.children[1].getObjectByName( `Canvas` ).material;
     const texture = this.loadersService.loadTexture( ops.texture );
     texture.colorSpace = SRGBColorSpace;
     texture.mapping = UVMapping;
