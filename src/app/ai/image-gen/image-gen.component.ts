@@ -64,13 +64,14 @@ export class ImageGenComponent {
     //     images.push( image );
     //     i++;
     //   }
-    const response = this.generative.generateImages( { prompt: this.prompt, question: this.question } );
+    const response: any[] = this.generative.generateImages( { prompt: this.prompt, question: this.question } );
     let images: Artwork[] = [];
-    response.forEach( ( data, i ) => {
-      const image = {
+    response.map( ( data, i ) => {
+      const image: Artwork = {
         id: i,
         url: `data:image/png;base64,${data.image}`,
-        description: `${data.caption}`
+        description: `${data.caption}`,
+        title: data.title
       };
       images.push( image );
 

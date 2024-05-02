@@ -30,6 +30,7 @@ export class MuseumComponent {
   addArtworks ( artworks: Artwork[] ) {
     this.focusArtwork.set( artworks[0] );
     this.artworksService.updateArtworks( artworks );
+
   }
 
 }

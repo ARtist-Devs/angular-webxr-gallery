@@ -166,6 +166,7 @@ export class FrameService {
 
   // TODO:
   updateFrames ( artworks: Artwork[] ) {
+    console.log( 'updating frames now ', artworks[0] );
     this.frames.children.forEach( ( frame, i ) => {
       this.updateFrame( { frame: frame, i: i, texture: artworks[i].url } );
       frame.userData['description'] = artworks[i].description;
@@ -184,6 +185,7 @@ export class FrameService {
 
     ops.frame.userData['url'] = ops.texture;
 
+    console.log( 'Updated frame canvas ', ops.frame.userData );
   }
 
   // TODO: maybe move to the gallery 
