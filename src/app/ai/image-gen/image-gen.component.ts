@@ -50,25 +50,32 @@ export class ImageGenComponent {
     this.question = this.question == '' ? 'Describe the image and tell me what makes this artwork beautiful' : this.question;
 
     // Call the service to generate image and emit the new image info
-    this.generative.generateImages( { prompt: this.prompt, question: this.question } ).subscribe( ( response ) => {
-      console.log( response );
-      let images: Artwork[] = [];
-      let i = 0;
-      for ( const [key, value] of Object.entries( response ) ) {
-        console.log( `${key}: ${value}` );
-        const image = {
-          id: i,
-          url: `data:image/png;base64,${value.image}`,
-          description: `${value.caption}`
-        };
-        images.push( image );
-        i++;
-      }
-
-
-      this.newArtworksEvent.emit( images );
+    // this.generative.generateImages( { prompt: this.prompt, question: this.question } ).subscribe( ( response ) => {
+    //   console.log( response );
+    //   let images: Artwork[] = [];
+    //   let i = 0;
+    //   for ( const [key, value] of Object.entries( response ) ) {
+    //     console.log( `${key}: ${value}` );
+    //     const image = {
+    //       id: i,
+    //       url: `data:image/png;base64,${value.image}`,
+    //       description: `${value.caption}`
+    //     };
+    //     images.push( image );
+    //     i++;
+    //   }
+    const response = this.generative.generateImages( { prompt: this.prompt, question: this.question } );
+    let images: Artwork[] = [];
+    response.forEach( ( data, i ) => {
+      const image = {
+        id: i,
+        url: `data:image/png;base64,${data.image}`,
+        description: `${data.caption}`
+      };
+      images.push( image );
 
     } );
+    this.newArtworksEvent.emit( images );
 
   }
 
