@@ -180,8 +180,9 @@ export class FrameService {
     texture.colorSpace = SRGBColorSpace;
     texture.mapping = UVMapping;
     material.map = texture;
-    material.map.userData['url'] = ops.texture;
     material.needsUpdate = true;
+
+    ops.frame.userData['url'] = ops.texture;
 
   }
 
