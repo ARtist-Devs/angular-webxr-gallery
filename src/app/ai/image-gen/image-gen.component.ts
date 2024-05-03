@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import { Component, inject, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -5,10 +6,11 @@ import { Artwork } from '../../artworks.service';
 import { GenerativeService } from '../generative.service';
 import { SpeechService } from '../speech.service';
 
+
 @Component( {
   selector: 'art-image-gen',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, NgClass],
   templateUrl: './image-gen.component.html',
   styleUrl: './image-gen.component.scss'
 } )
