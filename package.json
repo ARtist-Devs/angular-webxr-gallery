@@ -10,7 +10,8 @@
     "comp": "ng g component",
     "serv": "ng g service",
     "test": "ng test",
-    "update": "ng update @angular/cli@next @angular/core@next",
+    "update": "ng update @angular/cli @angular/core",
+    "update-next": "ng update @angular/cli@next @angular/core@next",
     "e2e": "ng e2e"
   },
   "private": true,
