@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 
 import { CanvasTexture, MeshPhysicalMaterial, MeshStandardMaterial, RepeatWrapping, SRGBColorSpace, Vector2 } from 'three';
 import { LoadersService } from './loaders.service';
-import { FlakesTexture } from 'three/examples/jsm/textures/FlakesTexture';
+import { FlakesTexture } from 'three/examples/jsm/textures/FlakesTexture.js';
 
 @Injectable( {
   providedIn: 'root'
