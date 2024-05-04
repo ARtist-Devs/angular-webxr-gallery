@@ -1,8 +1,7 @@
 import { Component, inject, signal, WritableSignal } from '@angular/core';
-
 import { NgClass } from '@angular/common';
+
 import { ImageGenComponent } from '../ai/image-gen/image-gen.component';
-import { SpeechService } from '../ai/speech.service';
 import { Artwork, ArtworksService } from '../artworks.service';
 import { GalleryComponent } from '../gallery/gallery.component';
 import { LoadingComponent } from '../loading/loading.component';
@@ -16,7 +15,6 @@ import { LoadingComponent } from '../loading/loading.component';
 } )
 export class MuseumComponent {
   private artworksService = inject( ArtworksService );
-  private speechService = inject( SpeechService );
 
   artworks: Artwork[] = [];
   focusArtwork: WritableSignal<Artwork> = signal( this.artworksService.getFocusedArtwork() );

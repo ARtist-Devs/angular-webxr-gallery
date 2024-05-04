@@ -4,8 +4,6 @@ import { FormsModule } from '@angular/forms';
 
 import { Artwork } from '../../artworks.service';
 import { GenerativeService } from '../generative.service';
-import { SpeechService } from '../speech.service';
-
 
 @Component( {
   selector: 'art-image-gen',
@@ -16,8 +14,6 @@ import { SpeechService } from '../speech.service';
 } )
 export class ImageGenComponent {
   private generative = inject( GenerativeService );
-  private speech = inject( SpeechService );
-
   newArtworksEvent = output<Artwork[]>();
 
   isLoading = signal( false );
@@ -33,10 +29,7 @@ export class ImageGenComponent {
 
     // Call the service to generate image and emit the new image info
     this.generative.generateImages( { prompt: this.prompt, question: this.question } ).subscribe( ( response ) => {
-      // console.log( response );
 
-      // To test with fake five images
-      // const response: any[] = this.generative.generateImages( { prompt: this.prompt, question: this.question } );
       let images: Artwork[] = [];
       // @ts-expect-error
       response.map( ( data, i ) => {
@@ -53,8 +46,5 @@ export class ImageGenComponent {
 
     } );
   }
-
-  // TODO:
-  speechInput () { }
 
 };
