@@ -24,6 +24,7 @@
     "start": "ng serve",
     "build": "ng build",
     "deploy": "yarn install && ng build",
+    "prod": "ng serve --configuration production",
     "watch": "ng build --watch --configuration development",
     "comp": "ng g component",
     "env": "ng generate environments",
