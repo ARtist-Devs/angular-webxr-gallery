@@ -1,7 +1,7 @@
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 
 import { animate, easeInOut } from 'popmotion';
-import { BoxGeometry, CylinderGeometry, Group, MathUtils, Mesh, MeshPhongMaterial, SRGBColorSpace, UVMapping, Vector3 } from 'three';
+import { BoxGeometry, CylinderGeometry, Group, MathUtils, Mesh, MeshPhongMaterial, Object3DEventMap, SRGBColorSpace, UVMapping, Vector3 } from 'three';
 
 import { SpeechService } from '../ai/speech.service';
 import { Artwork } from '../artworks.service';
@@ -14,18 +14,17 @@ import { UIService } from './ui.service';
 } )
 export class FrameService {
 
-  protected lightsService = inject( LightsService );
-  private loadersService = inject( LoadersService );
-  private UIService = inject( UIService );
-  private speech = inject( SpeechService );
+  private lightsService: LightsService = inject( LightsService );
+  private loadersService: LoadersService = inject( LoadersService );
+  private UIService: UIService = inject( UIService );
+  private speech: SpeechService = inject( SpeechService );
 
-  angle = Math.PI * 6;
-  canvasMaterial: MeshPhongMaterial = new MeshPhongMaterial();
-  frameDistance = 7;
-  frames = new Group();
-  frameGeometry: any = new CylinderGeometry( 1, 0.85, 0.1, 64, 5 );
-  phongMaterial = new MeshPhongMaterial();
-  focusFactor = 4;
+  private angle: number = Math.PI * 6;
+  private frameDistance: number = 7;
+  frames: Group<Object3DEventMap> = new Group();
+  frameGeometry: CylinderGeometry = new CylinderGeometry( 1, 0.85, 0.1, 64, 5 );
+  phongMaterial: MeshPhongMaterial = new MeshPhongMaterial();
+  focusFactor: number = 4;
   focusedFrame: WritableSignal<number> = signal( 0 );
   buttons = [
     {
@@ -57,7 +56,6 @@ export class FrameService {
     },
   ];
 
-  // TODO: move materials and Meshes to their services
   /**
    * 
    * @param artworks 

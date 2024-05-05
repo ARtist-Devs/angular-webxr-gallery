@@ -7,12 +7,14 @@ import { environment } from '../../environments/environment';
       providedIn: 'root'
 } )
 export class GenerativeService {
+
       private http = inject( HttpClient );
       private url = environment.GEMINI_API_URL;
 
       generateImages ( ops: any ) {
+
             const imagePrompt = ops.prompt;
-            const question = ops.question; //|| "Describe the image and tell me what makes this artwork beautiful";
+            const question = ops.question;
             const params = {
                   image_prompt: encodeURIComponent( imagePrompt ),
                   desc_prompt: encodeURIComponent( question ),
@@ -24,5 +26,7 @@ export class GenerativeService {
             };
 
             return this.http.get( `${this.url}-staging`, options );
+
       }
+
 }

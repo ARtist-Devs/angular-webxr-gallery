@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, inject, output, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { Artwork } from '../../artworks.service';
@@ -17,11 +17,12 @@ export class ImageGenComponent {
 
   newArtworksEvent = output<Artwork[]>();
   isLoading = signal( false );
-  prompt = '';
+  prompt: string = '';
   question: string = '';
-  message = signal( 'Welcome to WebXR Generative AI Art Gallery!' );
+  message: WritableSignal<string> = signal( 'Welcome to WebXR Generative AI Art Gallery!' );;
 
   genImages () {
+
     this.message.set( 'Generating your artwork...' );
     this.isLoading.set( true );
     this.prompt = this.prompt == '' ? 'A steampunk era science lab with a stylish figure in silhouette with dramatic lighting and vibrant colors dominated with copper hue' : this.prompt;
@@ -42,9 +43,11 @@ export class ImageGenComponent {
         images.push( image );
 
       } );
+
       this.newArtworksEvent.emit( images );
 
     } );
+
   }
 
 };

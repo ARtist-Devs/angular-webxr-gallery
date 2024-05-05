@@ -1,9 +1,9 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, effect, inject, WritableSignal } from '@angular/core';
 
 import { Material, Object3D, Object3DEventMap, PointLight } from 'three';
 
 import { ImageGenComponent } from '../ai/image-gen/image-gen.component';
-import { ArtworksService } from '../artworks.service';
+import { Artwork, ArtworksService } from '../artworks.service';
 import { LoadingComponent } from '../loading/loading.component';
 import { FrameService } from '../three/frame.service';
 import { MaterialsService } from '../three/materials.service';
@@ -20,13 +20,13 @@ import { UIService } from '../three/ui.service';
 
 export class GalleryComponent extends SceneComponent {
   // Services
-  private frameService = inject( FrameService );
-  private artworksService = inject( ArtworksService );
-  private materialsService = inject( MaterialsService );
-  private ui = inject( UIService );
+  private frameService: FrameService = inject( FrameService );
+  private artworksService: ArtworksService = inject( ArtworksService );
+  private materialsService: MaterialsService = inject( MaterialsService );
+  private ui: UIService = inject( UIService );
 
-  public artworks = this.artworksService.getArtworks( 5 );
-  focusArtwork = this.artworksService.getFocusedArtwork();
+  public artworks: WritableSignal<Artwork[]> = this.artworksService.getArtworks( 5 );
+  focusArtwork: Artwork = this.artworksService.getFocusedArtwork();
   buttons = [
     {
       name: "Next Button",
@@ -58,13 +58,17 @@ export class GalleryComponent extends SceneComponent {
   ];
 
   constructor() {
+
     super();
+
     effect( () => {
       this.frameService.updateFrames( this.artworks() );
     } );
+
   }
 
   override ngAfterViewInit (): void {
+
     super.ngAfterViewInit();
 
     // Focus frame
@@ -84,6 +88,7 @@ export class GalleryComponent extends SceneComponent {
   }
 
   createEnv () {
+
     // Lights
     this.addCornerLights();
 
@@ -91,7 +96,6 @@ export class GalleryComponent extends SceneComponent {
     // Model for Floor
     const model = this.loadersService.loadGLTF( {
       path: "assets/models/floorModel.glb",
-      onLoadProgress: this.onLoadProgress.bind( this ),
       onLoadCB: ( model: Object3D<Object3DEventMap> ) => {
         this.onModelLoaded( model );
       },
@@ -100,15 +104,12 @@ export class GalleryComponent extends SceneComponent {
     // Model for Walls
     const modelWalls = this.loadersService.loadGLTF( {
       path: "assets/models/galleryInnerWalls.glb",
-      onLoadProgress: this.onLoadProgress.bind( this ),
       onLoadCB: ( model: Object3D<Object3DEventMap> ) => {
         this.onLoadWallsLoaded( model );
       },
     } );
 
   }
-
-  onLoadProgress () { }
 
   onModelLoaded ( model: Object3D<Object3DEventMap> ) {
 
@@ -136,14 +137,18 @@ export class GalleryComponent extends SceneComponent {
       }
 
     } );
+
     this.addToScene( model );
+
   }
 
   onLoadWallsLoaded ( model: Object3D<Object3DEventMap> ) {
+
     model.position.z = -0;
     model.scale.set( 3, 3, 3 );
 
     this.addToScene( model );
+
   }
 
   addCornerLights () {
@@ -161,19 +166,5 @@ export class GalleryComponent extends SceneComponent {
     this.scene.add( pointLight, pointLight1, pointLight2 );
 
   }
-
-  // Place and animate the logo when loaded
-  onLoad ( model: Object3D ) {
-
-    model.position.z = -50;
-    model.position.y = 1;
-    model.name = 'aLogo';
-    this.addToScene( model );
-    this.addToRender( () => {
-      model.rotation.y += 0.01;
-    } );
-
-  }
-
 
 };

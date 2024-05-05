@@ -57,6 +57,7 @@ export class LoadersService {
     this.dracoLoader.setDecoderConfig( { type: 'js' } );
     this.dracoLoader.preload();
     this.gltfLoader.setDRACOLoader( this.dracoLoader );
+
   }
 
   // Load a GLTF model
@@ -65,6 +66,7 @@ export class LoadersService {
     onLoadCB: Function;
     onLoadProgress?: Function;
   } ) {
+
     this.gltfLoader.load(
       ops.path,
       ( gltf ): Object3D => {
@@ -80,17 +82,22 @@ export class LoadersService {
         console.error( 'Error loading model ', err );
       }
     );
+
   }
 
   // Load a texture
   loadTexture ( path: string ) {
+
     return this.textureLoader.load( path );
+
   }
 
   // Loading manager function to run on every file load
   onStart ( url: string, item: any, total: any ) {
+
     console.log(
       `Started loading file: ${url}. Now loading item ${item} of ${total}.`
     );
+
   }
 }
