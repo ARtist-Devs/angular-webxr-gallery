@@ -1,6 +1,6 @@
 import { Component, effect, inject } from '@angular/core';
 
-import { Material, Object3D, Object3DEventMap, PointLight, Vector2 } from 'three';
+import { Material, Object3D, Object3DEventMap, PointLight } from 'three';
 
 import { ImageGenComponent } from '../ai/image-gen/image-gen.component';
 import { ArtworksService } from '../artworks.service';
@@ -9,7 +9,6 @@ import { FrameService } from '../three/frame.service';
 import { MaterialsService } from '../three/materials.service';
 import { SceneComponent } from '../three/scene/scene.component';
 import { UIService } from '../three/ui.service';
-import { SpeechService } from '../ai/speech.service';
 
 @Component( {
   selector: 'art-gallery',
@@ -25,12 +24,8 @@ export class GalleryComponent extends SceneComponent {
   private artworksService = inject( ArtworksService );
   private materialsService = inject( MaterialsService );
   private ui = inject( UIService );
-  private speech = inject( SpeechService );
-
 
   public artworks = this.artworksService.getArtworks( 5 );
-  // TODO: clean up
-  private focusedFrame: any;
   focusArtwork = this.artworksService.getFocusedArtwork();
   buttons = [
     {
@@ -46,7 +41,7 @@ export class GalleryComponent extends SceneComponent {
       name: "Info Button",
       text: "Info",
       onClick: ( ind: number ) => {
-        this.playInfo( ind );
+        this.frameService.playInfo( ind );
       },
       position: { x: -0.8, y: 0.8, z: -0.1 },
       rotation: {},
@@ -62,14 +57,10 @@ export class GalleryComponent extends SceneComponent {
     },
   ];
 
-
   constructor() {
     super();
     effect( () => {
-      console.log( `The current focused is: ${this.artworks()}` );
-      // this.frameService.updateFrame( { texture: this.fa().url, frame: this.focusedFrame } );
       this.frameService.updateFrames( this.artworks() );
-
     } );
   }
 
@@ -82,10 +73,6 @@ export class GalleryComponent extends SceneComponent {
     // Environment
     this.createEnv();
 
-    // Lights
-    // this.addLights();
-
-    // TODO:Add Camera movement 
   };
 
   createFrames () {
@@ -97,6 +84,7 @@ export class GalleryComponent extends SceneComponent {
   }
 
   createEnv () {
+    // Lights
     this.addCornerLights();
 
     // Add Models
@@ -174,10 +162,6 @@ export class GalleryComponent extends SceneComponent {
 
   }
 
-  playInfo ( ind: number ) {
-
-  }
-
   // Place and animate the logo when loaded
   onLoad ( model: Object3D ) {
 
@@ -191,11 +175,5 @@ export class GalleryComponent extends SceneComponent {
 
   }
 
-  addLogo () {
-    // Load the logo
-    const model = this.loadersService.loadGLTF( {
-      path: '/assets/models/aLogo.glb',
-      onLoadCB: this.onLoad.bind( this ),
-    } );
-  }
+
 };

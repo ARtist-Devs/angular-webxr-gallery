@@ -1,14 +1,13 @@
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 
+import { animate, easeInOut } from 'popmotion';
 import { BoxGeometry, CylinderGeometry, Group, MathUtils, Mesh, MeshPhongMaterial, SRGBColorSpace, UVMapping, Vector3 } from 'three';
-import { animate, easeIn, easeInOut } from 'popmotion';
 
-import { Artwork } from '../artworks.service';
-import { LoadersService } from './loaders.service';
-import { PrimitivesService } from './primitives.service';
-import { UIService } from './ui.service';
-import { LightsService } from './lights.service';
 import { SpeechService } from '../ai/speech.service';
+import { Artwork } from '../artworks.service';
+import { LightsService } from './lights.service';
+import { LoadersService } from './loaders.service';
+import { UIService } from './ui.service';
 
 @Injectable( {
   providedIn: 'root'
@@ -18,7 +17,6 @@ export class FrameService {
   protected lightsService = inject( LightsService );
   private loadersService = inject( LoadersService );
   private UIService = inject( UIService );
-  private primitivesService = inject( PrimitivesService );
   private speech = inject( SpeechService );
 
   angle = Math.PI * 6;
@@ -66,8 +64,8 @@ export class FrameService {
    * @returns 
    */
   createFrames ( artworks: Artwork[], btns: any[] = [], cb?: Function ) {
+
     this.frames.name = 'Frames Group';
-    // this.buttons = btns;
     // Angle between frames
     this.angle = ( Math.PI * 2 ) / artworks.length;
 
@@ -83,6 +81,7 @@ export class FrameService {
     this.focusFrame( 0 );
 
     return this.frames;
+
   }
 
   /**
@@ -164,17 +163,16 @@ export class FrameService {
 
   }
 
-  // TODO:
   updateFrames ( artworks: Artwork[] ) {
-    console.log( 'updating frames now ', artworks[0] );
+
     this.frames.children.forEach( ( frame, i ) => {
       this.updateFrame( { frame: frame, i: i, texture: artworks[i].url } );
       frame.userData['description'] = artworks[i].description;
     } );
+
   }
 
   updateFrame ( ops: any ) {
-    console.log( 'Updating frame canvas ', ops.frame );
 
     const material = ops.frame.children[1].getObjectByName( `Canvas` ).material;
     const texture = this.loadersService.loadTexture( ops.texture );
@@ -185,11 +183,10 @@ export class FrameService {
 
     ops.frame.userData['url'] = ops.texture;
 
-    console.log( 'Updated frame canvas ', ops.frame.userData );
   }
 
-  // TODO: maybe move to the gallery 
   playInfo ( index: number ) {
+
     const description = this.frames.children[index].userData['description'];
     this.speech.say( description );
 
@@ -264,51 +261,4 @@ export class FrameService {
 
   }
 
-
-  //===== For Test Component
-
-  /**
- * Creates the canvas element that displays the images
- * @param options 
- * @returns 
- */
-  createCanvas ( options: any ) {
-    const ops = Object.assign( {}, { x: 2, y: 2, z: 0.6 }, options, );
-    const texture = this.loadersService.loadTexture( ops.artwork.url );
-    texture.colorSpace = SRGBColorSpace;
-    texture.mapping = UVMapping;
-    const canvasMaterial = this.canvasMaterial.clone();
-    canvasMaterial.map = texture;
-
-    const canvas = this.primitivesService.createBox( { x: ops.x, y: ops.y, z: ops.z, material: canvasMaterial } );
-    canvas.name = `Canvas Material`;
-
-    return canvas;
-
-  }
-
-  createFocusFrame ( artwork: Artwork ) {
-    const frame = new Group();
-    frame.name = `Focused Frame`;
-
-    const canvas = this.createCanvas( { artwork: artwork } );
-    const box = this.primitivesService.createBox( { x: 4, y: 4, z: 0.5 } );
-    frame.add( box, canvas );
-    frame.position.y = 1;
-
-    return frame;
-  }
-
-  createSmallFrame ( ops: any ) {
-
-    const frame = new Group();
-    frame.name = 'Small frame group';
-    const box = this.primitivesService.createBox( { x: 2, y: 2, z: 0.3 } );
-
-    const canvas = this.createCanvas( { artwork: ops.artwork, x: 1, y: 1, z: 0.35 } );
-    frame.add( box, canvas );
-
-    return frame;
-
-  }
 }

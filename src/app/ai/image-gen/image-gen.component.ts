@@ -14,8 +14,8 @@ import { GenerativeService } from '../generative.service';
 } )
 export class ImageGenComponent {
   private generative = inject( GenerativeService );
-  newArtworksEvent = output<Artwork[]>();
 
+  newArtworksEvent = output<Artwork[]>();
   isLoading = signal( false );
   prompt = '';
   question: string = '';
