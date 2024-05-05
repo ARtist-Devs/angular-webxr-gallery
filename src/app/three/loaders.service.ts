@@ -42,12 +42,7 @@ export class LoadersService {
       const time = Date.now();
       const elapsedSec = ( time - this.loadStartTime ) / 1000;
       console.log( `Loading complete, seconds elapsed = ${elapsedSec}` );
-      // gtag( 'event', 'loaded', {
-      //   'description': `All Assets are loaded in ${elapsedSec} seconds`,
-      //   'event_category': 'loading',
-      //   'event_label': 'initial_loading',
-      //   'value': elapsedSec
-      // } );
+
     };
 
     this.loadingManager.onError = ( url: string ) => {
@@ -83,12 +78,6 @@ export class LoadersService {
       },
       ( err ) => {
         console.error( 'Error loading model ', err );
-        // gtag( 'event', 'error_loading_model', {
-        //   'description': `Error loading ${ops.path}`,
-        //   'event_category': 'loading',
-        //   'event_label': 'loading_model_error',
-        //   'non_interaction': true
-        // } );
       }
     );
   }
