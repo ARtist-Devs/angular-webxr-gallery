@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 } )
 export class GenerativeService {
       private http = inject( HttpClient );
-      private url = environment.apiUrl;
+      private url = environment.GEMINI_API_URL;
 
       generateImages ( ops: any ) {
             const imagePrompt = ops.prompt;
