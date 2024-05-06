@@ -59,10 +59,8 @@ export class XRService {
     this.renderer = ops.renderer;
     this.scene = ops.scene;
     this.webXRManager = ops.renderer.xr;
-    // console.log( 'webXRManager ', this.webXRManager );
     this.webXRManager.enabled = true;
     this.session = this.webXRManager.getSession();
-    // console.log( 'xrSession ', this.session );
     this.initVR();
     if ( this.xrMode() === 'immersive-vr' ) {
       this.initVR();
@@ -72,8 +70,10 @@ export class XRService {
   }
 
   initVR () {
+
     this.controllerLeft = this.initController( this.renderer.xr.getController( 0 ), 0 );
     this.controllerRight = this.initController( this.renderer.xr.getController( 1 ), 1 );
+
   }
 
   initController ( controller: any, i: number ) {
@@ -84,7 +84,6 @@ export class XRService {
     controller.addEventListener( 'connected', ( event: any ) => {
 
       let geometry, material;
-      console.log( 'Controller connected', event.data.targetRayMode );
 
       switch ( event.data.targetRayMode ) {
 
@@ -108,16 +107,14 @@ export class XRService {
           material = new MeshBasicMaterial( { opacity: 0.5, transparent: true } );
           return new Mesh( geometry, material );
       }
-      // @ts-ignore
-      // this.parent.add(this.buildController(event.data))
-      // this.add(this.buildController(event.data));
 
     } );
+
     controller.addEventListener( 'disconnected', function () {
       console.log( 'Controller disconnected' );
-      // this.remove(this.children[0]);
 
     } );
+
     const controllerModelFactory = new XRControllerModelFactory();
 
     const controllerGrip = this.renderer.xr.getControllerGrip( i );

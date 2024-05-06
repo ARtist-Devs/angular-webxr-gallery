@@ -16,15 +16,13 @@ export class ImageGenComponent {
   private generative = inject( GenerativeService );
 
   newArtworksEvent = output<Artwork[]>();
-  isLoading = signal( false );
   prompt: string = '';
   question: string = '';
-  message: WritableSignal<string> = signal( 'Welcome to WebXR Generative AI Art Gallery!' );;
+  message: WritableSignal<string> = signal( 'Welcome to WebXR Generative AI Art Gallery!' );
 
   genImages () {
 
     this.message.set( 'Generating your artwork...' );
-    this.isLoading.set( true );
     this.prompt = this.prompt == '' ? 'A steampunk era science lab with a stylish figure in silhouette with dramatic lighting and vibrant colors dominated with copper hue' : this.prompt;
     this.question = this.question == '' ? 'Describe the image and tell me what makes this artwork beautiful' : this.question;
 

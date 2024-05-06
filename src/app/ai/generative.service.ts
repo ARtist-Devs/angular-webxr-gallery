@@ -24,9 +24,7 @@ export class GenerativeService {
                   params: params,
                   headers: new HttpHeaders( { 'Content-Type': 'header' } )
             };
-
-            return this.http.get( `https://us-central1-imagenio.cloudfunctions.net/xr-gallery-py-staging-2`, options );
-            // return this.http.get( `${this.url}-staging`, options );
+            return this.http.get( `${this.url}`, options );
       }
 
 }

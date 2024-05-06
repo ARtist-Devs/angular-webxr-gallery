@@ -61,11 +61,11 @@ export class FrameService {
    * @param artworks 
    * @returns 
    */
-  createFrames ( artworks: Artwork[], btns: any[] = [], cb?: Function ) {
+  createFrames ( artworks: Artwork[], cb?: Function ) {
 
     this.frames.name = 'Frames Group';
     // Angle between frames
-    this.angle = ( Math.PI * 2 ) / artworks.length;
+    this.angle = ( Math.PI * 2 ) / artworks.length || 5;
 
     const frames = artworks.map( ( artwork, i ) => {
       const f = this.placeFrame( this.createFrame( artwork ), i );
@@ -199,10 +199,12 @@ export class FrameService {
       // Rotate to Next frame
       i = index < length - 1 ? index + 1 : 0;
       this.rotateFrames( 72 );
+      this.focusedFrame.set( i );
     } else if ( position === -1 ) {
       // Rotate to Previous
       i = index === 0 ? length - 1 : index - 1;
       this.rotateFrames( -72 );
+      this.focusedFrame.set( i );
     }
 
     this.focusedFrame.set( i );

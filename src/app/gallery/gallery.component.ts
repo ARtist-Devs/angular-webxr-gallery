@@ -1,4 +1,4 @@
-import { Component, effect, inject, WritableSignal } from '@angular/core';
+import { Component, effect, inject, input, signal, WritableSignal } from '@angular/core';
 
 import { Material, Object3D, Object3DEventMap, PointLight } from 'three';
 
@@ -13,7 +13,7 @@ import { UIService } from '../three/ui.service';
 @Component( {
   selector: 'art-gallery',
   standalone: true,
-  imports: [SceneComponent, LoadingComponent, ImageGenComponent],
+  imports: [SceneComponent, LoadingComponent, ImageGenComponent,],
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss'
 } )
@@ -21,41 +21,10 @@ import { UIService } from '../three/ui.service';
 export class GalleryComponent extends SceneComponent {
   // Services
   private frameService: FrameService = inject( FrameService );
-  private artworksService: ArtworksService = inject( ArtworksService );
   private materialsService: MaterialsService = inject( MaterialsService );
   private ui: UIService = inject( UIService );
 
-  public artworks: WritableSignal<Artwork[]> = this.artworksService.getArtworks( 5 );
-  focusArtwork: Artwork = this.artworksService.getFocusedArtwork();
-  buttons = [
-    {
-      name: "Next Button",
-      text: "Next",
-      onClick: ( ind: number ) => {
-        this.frameService.changeSelection( ind, 1 );
-      },
-      position: { x: -0.75, y: 0, z: -0.0 },
-      rotation: {},
-    },
-    {
-      name: "Info Button",
-      text: "Info",
-      onClick: ( ind: number ) => {
-        this.frameService.playInfo( ind );
-      },
-      position: { x: -0.8, y: 0.8, z: -0.1 },
-      rotation: {},
-    },
-    {
-      name: "Previous Button",
-      text: "Previous",
-      onClick: ( ind: number ) => {
-        this.frameService.changeSelection( ind, -1 );
-      },
-      position: { x: 0.75, y: 0, z: -0 },
-      rotation: {},
-    },
-  ];
+  public artworks = input.required<Artwork[]>();
 
   constructor() {
 
