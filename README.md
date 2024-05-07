@@ -34,8 +34,9 @@ yarn start
 #### Run Gemini API locally
 
 - [Install Google Cloud CLI](https://cloud.google.com/sdk/docs/install)
+- On main.py line 16, change PROJECT_ID value to your project Gemini Project ID. That is the project you will be login in using gcloud CLI.
 - Run the below commands in your terminal on the root of this project
-
+  
 ```
 cd server
 gcloud init
