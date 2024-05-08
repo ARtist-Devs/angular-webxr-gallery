@@ -42,8 +42,8 @@ cd server
 gcloud init
 gcloud config set project <PROJECT_ID>
 gcloud auth application-default login
-python3 -m venv .
-. bin/activate
+python3 -m venv ./venv
+. venv/bin/activate
 pip install -r requirements.txt
 python main.py
 ```
