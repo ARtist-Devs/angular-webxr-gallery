@@ -56,7 +56,7 @@ export class LoadingComponent extends SceneComponent {
   onLoad ( model: Object3D ) {
 
     model.position.z = -100;
-    model.position.y = 13;
+    model.position.y = 15;
     model.name = 'aLogo';
     this.addToScene( model );
     this.addToRender( () => {
