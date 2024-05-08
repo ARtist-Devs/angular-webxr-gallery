@@ -12,7 +12,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 To get started with the Angular app without setting up the Gemini API, you can install the dependencies and run start script. 
 
-You need have install Node version 18 and up installed in your development environment.
+You need have install Node version ^18.19.1 || ^20.11.1 || >=22.0.0 installed in your development environment.
 
 ```
 npm install

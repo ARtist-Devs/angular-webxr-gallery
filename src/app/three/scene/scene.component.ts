@@ -199,6 +199,12 @@ export class SceneComponent {
 
     // set the pixel ratio (for mobile devices)
     this.renderer.setPixelRatio( window.devicePixelRatio );
+
+  }
+
+  onDeviceChange ( e: Event ) {
+    console.log( 'Device changed ', e );
+    this.onResize( e );
   }
 
   addLights () {
