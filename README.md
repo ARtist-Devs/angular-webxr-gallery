@@ -25,11 +25,6 @@ You need have install Node version ^18.19.1 || ^20.11.1 || >=22.0.0 installed in
 ```
 npm install
 npm run start
-
-//or
-
-yarn install
-yarn start
 ```
 
 ### Setting up Gemini API
@@ -59,7 +54,7 @@ python main.py
 - Once the Python server is running, start the Angular server in your root folder
 
 ```
-yarn start
+npm i
 ```
 
 #### Call the Gemini API in a cloud Function(Optional)
