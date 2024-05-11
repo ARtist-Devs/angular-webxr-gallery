@@ -3,7 +3,7 @@ import {
   Component
 } from '@angular/core';
 
-import { Mesh, MeshBasicMaterial, Object3D, PointLight, SphereGeometry } from 'three';
+import { DirectionalLight, Mesh, MeshBasicMaterial, Object3D, PointLight, SphereGeometry, Vector3 } from 'three';
 
 import { SceneComponent } from '../three/scene/scene.component';
 
@@ -17,6 +17,7 @@ import { SceneComponent } from '../three/scene/scene.component';
 } )
 export class LoadingComponent extends SceneComponent {
   particleLight: Mesh;
+  model: any;
 
   constructor() {
     super();
@@ -36,16 +37,21 @@ export class LoadingComponent extends SceneComponent {
   };
 
   createLight () {
+    const directionalLight = new DirectionalLight( 0xffb00f, 40 );
 
+    directionalLight.target = this.model;
     this.particleLight = new Mesh(
       new SphereGeometry( .05, 8, 8 ),
       new MeshBasicMaterial( { color: 0xffffff } )
     );
-    this.scene.add( this.particleLight );
-    const pointLight = new PointLight( 0xffffff, 30 );
+    // this.scene.add( this.particleLight );
+    const pointLight = new PointLight( 0xfff00f, 40 );
+    pointLight.position.z = -3;
+    pointLight.position.y = 15;
+    pointLight.rotation.x = Math.PI / 2;
     this.particleLight.add( pointLight );
-    pointLight.rotation.x = -Math.PI / 2;
-    this.particleLight.position.z = -90;
+
+    this.particleLight.position.z = -80;
     this.scene.add( this.particleLight );
 
     this.addToRender( this.animate.bind( this ) );
@@ -54,7 +60,7 @@ export class LoadingComponent extends SceneComponent {
 
   // Place and animate the logo when loaded
   onLoad ( model: Object3D ) {
-
+    this.model = model;
     model.position.z = -100;
     model.position.y = 15;
     model.name = 'aLogo';
@@ -70,7 +76,7 @@ export class LoadingComponent extends SceneComponent {
 
     this.particleLight.position.x = Math.sin( timer * 7 ) * 3;
     this.particleLight.position.y = Math.cos( timer * 5 ) * 4;
-    this.particleLight.position.z = Math.cos( timer * 3 ) * 3;
+    // this.particleLight.position.z = Math.cos( timer * 3 ) * 3;
 
   }
 }

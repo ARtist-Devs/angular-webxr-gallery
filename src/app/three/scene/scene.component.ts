@@ -254,6 +254,9 @@ export class SceneComponent {
   }
 
   onTouchStart ( e: TouchEvent ) {
+    console.log(
+      'Touch Start ', e
+    );
 
     this.pointer.x = ( ( e.touches[0].clientX - this.rect.left ) / ( this.rect.right - this.rect.left ) ) * 2 - 1;
     this.pointer.y = - ( ( e.touches[0].clientY - this.rect.top ) / ( this.rect.bottom - this.rect.top ) ) * 2 + 1;
@@ -262,7 +265,9 @@ export class SceneComponent {
   }
 
   onPointerDown ( e: PointerEvent ) {
-
+    console.log(
+      'Pointer Down ', e
+    );
     this.pointer.x = ( ( e.clientX - this.rect.left ) / ( this.rect.right - this.rect.left ) ) * 2 - 1;
     this.pointer.y = - ( ( e.clientY - this.rect.top ) / ( this.rect.bottom - this.rect.top ) ) * 2 + 1;
     this.interactions.intersectObjects( { pointer: this.pointer, camera: this.camera, scene: this.scene } );

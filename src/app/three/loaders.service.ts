@@ -31,9 +31,9 @@ export class LoadersService {
       itemsLoaded: number,
       itemsTotal: number
     ) => {
-      console.log(
-        `Loading file: ${url}.\nLoaded ${itemsLoaded} of ${itemsTotal} files.`
-      );
+      // console.log(
+      //   `Loading file: ${url}.\nLoaded ${itemsLoaded} of ${itemsTotal} files.`
+      // );
       this.loadingProgress.set( ( itemsLoaded * 100 ) / itemsTotal );
     };
 

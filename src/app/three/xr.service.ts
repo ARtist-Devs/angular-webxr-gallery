@@ -34,8 +34,9 @@ export class XRService {
   // Check XR Support and determine if the session is AR or VR
 
   checkXRSupport ( ops: { renderer: WebGLRenderer, camera: any, scene: any; } ) {
-    if ( this.vrSupported || this.arSupported ) { return true; }
-    else if ( navigator.xr ) {
+    this.scene = ops.scene;
+    // if ( this.vrSupported || this.arSupported ) { return true; }
+    if ( navigator.xr ) {
 
       // Starts the inline session and init AR/VR depending on xrMode
       navigator.xr.isSessionSupported( 'immersive-vr' ).then( ( supported ) => {
@@ -67,11 +68,11 @@ export class XRService {
     this.webXRManager.enabled = true;
     this.session = this.webXRManager.getSession();
     this.initVR();
-    if ( this.xrMode() === 'immersive-vr' ) {
-      this.initVR();
-    } else if ( this.xrMode() === 'immersive-ar' ) {
-      this.initAR();
-    }
+    // if ( this.xrMode() === 'immersive-vr' ) {
+    //   this.initVR();
+    // } else if ( this.xrMode() === 'immersive-ar' ) {
+    //   this.initAR();
+    // }
 
   }
 
@@ -83,12 +84,13 @@ export class XRService {
   }
 
   initController ( controller: any, i: number ) {
+    console.log( 'Init controller ', controller );
 
     controller.addEventListener( 'selectstart', this.onSelectStart.bind( this ) );
     controller.addEventListener( 'select', this.onSelect.bind( this ) );
     controller.addEventListener( 'selectend', this.onSelectEnd.bind( this ) );
     controller.addEventListener( 'connected', ( event: any ) => {
-
+      console.log( 'Controller connected', event.data.targetRayMode );
       let geometry, material;
 
       switch ( event.data.targetRayMode ) {
@@ -113,6 +115,11 @@ export class XRService {
           material = new MeshBasicMaterial( { opacity: 0.5, transparent: true } );
           return new Mesh( geometry, material );
       }
+
+    } );
+    controller.addEventListener( 'disconnected', function () {
+      console.log( 'Controller disconnected' );
+      // this.remove(this.children[0]);
 
     } );
 
@@ -142,8 +149,8 @@ export class XRService {
   onSelectStart ( e: any ) {
     console.log( 'Select Start VR event ', e );
     this.userData.isSelecting = true;
-    this.interactions.intersectObjects( { controller: this.controllerLeft, scene: this.scene } );
-    this.interactions.intersectObjects( { controller: this.controllerRight, scene: this.scene } );
+    // this.interactions.intersectObjects( { controller: this.controllerLeft, scene: this.scene } );
+    // this.interactions.intersectObjects( { controller: this.controllerRight, scene: this.scene } );
 
   };
 

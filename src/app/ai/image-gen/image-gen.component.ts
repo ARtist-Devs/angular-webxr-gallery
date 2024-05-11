@@ -27,25 +27,23 @@ export class ImageGenComponent {
     this.question = this.question == '' ? 'Describe the image and tell me what makes this artwork beautiful' : this.question;
 
     // Call the service to generate image and emit the new image info
-    this.generative.generateImages( { prompt: this.prompt, question: this.question } ).subscribe( ( response ) => {
-
-      let images: Artwork[] = [];
-      // @ts-expect-error
-      response.map( ( data, i ) => {
-        const image: Artwork = {
-          id: i,
-          url: `data:image/png;base64,${data.image}`,
-          description: `${data.caption}`,
-          title: data.title
-        };
-        images.push( image );
-
-      } );
-
-      this.newArtworksEvent.emit( images );
+    // this.generative.generateImages( { prompt: this.prompt, question: this.question } ).subscribe( ( response ) => {
+    // @ts-ignore
+    let images: Artwork[] = [];
+    const response = this.generative.generateImages( { prompt: this.prompt, question: this.question } );
+    response.map( ( data, i ) => {
+      const image: Artwork = {
+        id: i,
+        url: `data:image/png;base64,${data.image}`,
+        description: `${data.caption}`,
+        title: data.title
+      };
+      images.push( image );
 
     } );
 
-  }
+    this.newArtworksEvent.emit( images );
 
-};
+  };
+
+}
