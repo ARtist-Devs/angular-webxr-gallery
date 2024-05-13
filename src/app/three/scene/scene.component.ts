@@ -125,7 +125,7 @@ export class SceneComponent {
   afterInit () {
     // XR 
     // Add XR button even if WebXR is not supported
-    const xrButton = XRButton.createButton( this.renderer );
+    const xrButton = XRButton.createButton( this.renderer, { requiredFeatures: ['local-floor'] } );
     xrButton.addEventListener( 'click', ( e ) => {
       console.log( 'clicked xrButton ', e );
     } );
