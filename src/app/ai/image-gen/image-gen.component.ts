@@ -34,8 +34,10 @@ export class ImageGenComponent {
     response.map( ( data, i ) => {
       const image: Artwork = {
         id: i,
-        url: `data:image/png;base64,${data.image}`,
-        description: `${data.caption}`,
+        // url: `data:image/png;base64,${data.image}`,
+        // description: `${data.caption}`,
+        url: `${data.url}`,
+        description: `${data.title}`,
         title: data.title
       };
       images.push( image );
