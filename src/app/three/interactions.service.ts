@@ -76,26 +76,22 @@ export class InteractionsService {
  * @returns selected object
  */
   intersectObjects ( ops: any ) {
-    console.log( 'IntersectObjects ', ops );
-    // Find closest intersecting object
 
+    // Find closest intersecting object
     let intersect: any;
 
     if ( ops.pointer && ops.pointer.x !== null && ops.pointer.y !== null ) {
       this.raycaster.setFromCamera( ops.pointer, ops.camera );
-      console.log( 'Raycast set from camera' );
 
     } else {
       this.tempMatrix.identity().extractRotation( ops.controller.matrixWorld );
 
       this.raycaster.ray.origin.setFromMatrixPosition( ops.controller.matrixWorld );
       this.raycaster.ray.direction.set( 0, 0, - 1 ).applyMatrix4( this.tempMatrix );
-      console.log( 'setting ray from controller ', this.raycaster.ray.origin, this.raycaster.ray.direction );
 
     }
 
     intersect = this.raycast();
-    console.log( "this.colliders[intersect.object['uuid']]() ", this.colliders[intersect.object['uuid']]() );
     return intersect && this.colliders[intersect.object['uuid']]();
   }
 
